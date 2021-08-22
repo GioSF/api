@@ -1,64 +1,133 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400"></a></p>
+<h2>Projeto de extensão realizado pelo IFSudesteMG para a implementação da Juizforana - Projeto Archeîon</h2>
 
-<p align="center">
-<a href="https://travis-ci.org/laravel/framework"><img src="https://travis-ci.org/laravel/framework.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+<h3>Ciclos de desenvolvimento</h3>
 
-## About Laravel
+<h5>Criação de feature branches</h5>
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+<p>A branch <code>main</code> é versão de produção. Novas funcionalidades <strong>DEVEM</strong> ser desenvolvidas em <code>feature branches</code> criadas a partir da branch <code>dev</code>. Para criar uma branch local a partir de development:</q>
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+<code>git checkout -b &lt;new-feature-branch-name&gt; &lt;dev&gt;</code>
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+<p>Isso irá criar uma nova feature branch a partir de <code>dev</code>.</p>
+<p>Dar git add e git push apenas nos arquivos relativos ao trabalho na <code>feature branch</code></p>
+<p>Não adicionar arquivos de configuração<qp>
 
-## Learning Laravel
+<p>Pushing uma branch local para remote:</p>
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+<code>git push -u origin &lt;branch-name&gt;</code>
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 1500 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+<h5>Pull requests e merging</h5>
 
-## Laravel Sponsors
+<p>O código implementado em feature branches passará por processo de code review</p>
+<p>Após aprovação, será feito o merge da <code>feature branch</code> no <code>dev</code>. É <strong>NECESSÁRIO APAGAR</strong> a <code>feature branch</code> criada.</p>
+<p>Após dar o merge da branch <code>dev</code> na branch <code>main</code>, <strong>NÃO</strong> apagar a branch <code>development</code></p>
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell).
+<h4>Configuração do amazon-ec2/php/apache a partir do ssh:</h4>
 
-### Premium Partners
+<ol>
+	<li>Instalação do php:
+		<ul>
+			<li>sudo apt update</li>
+			<li>sudo apt install php7.4-cli</li>
+			<li>sudo apt install php-fpm php-json php-pdo php-mysql php-zip php-gd  php-mbstring php-curl php-xml php-pear php-bcmath</li>
+			<li>sudo apt-get install libapache2-mod-php</li>
+		</ul>
+	</li>
+	<li>Instalação do composer
+		<ul>
+			<li>Visitar https://getcomposer.org/download/</li>
+			<li>Copiar e executar as lihas de instalação</li>
+			<li>sudo mv composer.phar /usr/local/bin/composer (para instalção global do composer)</li>
+		</ul>
+	</li>
+	<li>Instalação do laravel
+		<ul>
+			<li>composer global require laravel/installer</li>
+		</ul>
+	</li>
+	<li>Instalação do mysql
+		<ul>
+			<li>sudo apt-get install mysql-server mysql-client</li>
+			<li>sudo mysql_secure_installation</li>
+			<li>CREATE USER 'algumusuario'@'localhost' IDENTIFIED BY 'algumapassword';</li>
+			<li>GRANT ALL PRIVILEGES ON * . * TO 'algumusuario'@'localhost';</li>
+		</ul>
+	</li>
+	<li>Instalação do apache
+		<ul>
+			<li>sudo apt-get install apache2</li>
+			<li>sudo nano /etc/apache2/apache2.conf</li>
+			<li>Adicionar:</li>
+			<li>		
+			<code>
+				&lt;Directory /var/www/&gt;
+					Options Indexes FollowSymLinks
+					AllowOverride All
+					Require all granted
+				&lt;/Directory&gt;
+			</code><br>
+			</li>
+		</ul>
+	</li>
+	<li>Baixar e instalar repositório
+		<ul>
+			<li>cd /var/www/html/</li>
+			<li>sudo git clone https://github.com/Archeion-Project/api.git</li>
+			<li>cd archeion</li>
+			<li>sudo composer install</li>
+			<li>sudo mkdir storage</li>
+			<li>sudo chmod -R 775 storage/</li>
+			<li>chmod -R 775 bootstrap/</li>
+			<li>sudo chmod -R 755 /var/www</li>
+		</ul>
+	</li>
+	<li>Definir serviço
+		<ul>
+			<li>sudo cp /etc/apache2/sites-available/000-default.conf /etc/apache2/sites-available/archeion.conf</li>
+			<li>sudo nano /etc/apache2/sites-available/archeion.conf</li>
+			<li>Adicionar à archeion.conf</li>
+			<li>
+				<code>
+					&lt;VirtualHost *:80&gt;<br>
+					&emsp;ServerName (adicionar Public IPv4 DNS ou domínio)<br>
+					&emsp;ServerAdmin webmaster@thedomain.com<br>
+					&emsp;DocumentRoot /var/www/html/archeion/public<br>
+					&emsp;&emsp;&lt;Directory /var/www/html/archeion&gt;<br>
+					&emsp;&emsp;&emsp;AllowOverride All<br>
+					&emsp;&emsp;&lt;/Directory&gt;<br>
+					&emsp;ErrorLog ${APACHE_LOG_DIR}/error.log<br>
+					&emsp;CustomLog ${APACHE_LOG_DIR}/access.log combined<br>
+					&lt;/VirtualHost&gt;
+				</code><br>
+			</li>
+			<li>sudo a2dissite 000-default.conf</li>
+			<li>sudo a2ensite archeion.conf</li>
+			<li>sudo a2enmod rewrite</li>
+			<li>sudo systemctl restart apache2</li>
+		</ul>
+	</li>
+	<li>Definir permissões
+		<ul>
+			<li>cd /var/www/html/archeion/storage execute: sudo mkdir -p framework/{sessions,views,cache}</li>
+			<li>chmod -R 775 sessions, views, cache</li>
+			<li>No diretório archeion/ execute: composer install</li>
+			<li>Alterar bootstrap/cache/config.php session array: de 'driver' => 'file' para 'driver' => 'cookie'</li>
+			<li>sudo systemctl restart apache2</li>
+			<li>sudo mkdir /var/www/html/archeion/storage/framework/cache/data</li>
+		</ul>
+	</li>
+	<li>Criar banco de dados
+		<ul>
+			<li>Acessar terminal do mysql</li>
+			<li>CREATE DATABASE archeion;</li>
+			<li>No diretório archeion/ execute: composer install</li>
+			<li>Alterar bootstrap/cache/config.php session array: de 'driver' => 'file' para 'driver' => 'cookie'</li>
+			<li>sudo systemctl restart apache2</li>
+		</ul>
+	</li>
+</ol>
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Cubet Techno Labs](https://cubettech.com)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[Many](https://www.many.co.uk)**
-- **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
-- **[DevSquad](https://devsquad.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[OP.GG](https://op.gg)**
-- **[CMS Max](https://www.cmsmax.com/)**
-- **[WebReinvent](https://webreinvent.com/?utm_source=laravel&utm_medium=github&utm_campaign=patreon-sponsors)**
-
-## Contributing
-
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
-
-## Code of Conduct
-
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
-
-## Security Vulnerabilities
-
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
-
-## License
-
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+<p>Debug tools</p>
+	<ul>
+	<li>cd /etc/apache2 | apache2ctl configtest</li>
+	</ul>
