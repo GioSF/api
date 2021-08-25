@@ -130,4 +130,5 @@
 <p>Debug tools</p>
 	<ul>
 	<li>cd /etc/apache2 | apache2ctl configtest</li>
+	<li>teste</li>
 	</ul>
