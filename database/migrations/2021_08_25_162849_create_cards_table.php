@@ -22,9 +22,11 @@ class CreateCardsTable extends Migration
             $table->text('abstract')->nullable();
             $table->text('comment')->nullable();
             $table->text('issue')->nullable();
+            $table->unsignedInteger('organization_id')->nullable();
             $table->timestamps();
 
             // $table->foreign('journal_id')->references('id')->on('journal'); //MUDAR PARA CHAVE ESTRANGEIRA
+            // $table->foreign('organization_id')->references('id')->on('organization'); //MUDAR PARA CHAVE ESTRANGEIRA
         });
     }
 
