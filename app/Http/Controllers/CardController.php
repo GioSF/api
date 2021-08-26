@@ -55,8 +55,8 @@ class CardController extends Controller
     public function show($id)
     {
         $cards = Card::all();
-        return $cards;
-        //return view('card.show', ['cards' => $cards]);
+        // return $cards;
+        return view('card.show', ['cards' => $cards]);
     }
 
     /**
@@ -68,7 +68,7 @@ class CardController extends Controller
     public function edit($id)
     {
         $card = Card::findOrFail($id);
-        // return view('card.edit', ['card' => $card]);
+        return view('card.edit', ['card' => $card]);
     }
 
     /**
@@ -101,5 +101,6 @@ class CardController extends Controller
     {
         $card = Card::findOrFail($id);
         $card->delete();
+        return redirect()->route('card.create');
     }
 }
