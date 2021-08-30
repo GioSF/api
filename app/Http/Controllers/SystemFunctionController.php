@@ -2,19 +2,21 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\SystemFunction as SystemFunctionResource;
 use App\Models\SystemFunction;
 use Illuminate\Http\Request;
 
 class SystemFunctionController extends Controller
 {
-    /**
+      /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
     public function index()
     {
-        //
+        $system_functions = SystemFunction::paginate(15);
+        return SystemFunctionResource::collection($system_functions);
     }
 
     /**
@@ -24,7 +26,7 @@ class SystemFunctionController extends Controller
      */
     public function create()
     {
-        return view('systemFunction.create');
+        //
     }
 
     /**
@@ -35,11 +37,13 @@ class SystemFunctionController extends Controller
      */
     public function store(Request $request)
     {
-        SystemFunction::create([
-            'name' => $request->name,
-            'description' => $request->description,
-        ]);
-        return redirect()->route('systemFunction.create');
+        $system_function = new SystemFunction();
+        $system_function->name = $request->input('name');
+        $system_function->description = $request->input('description');
+
+        if( $system_function->save() ){
+          return new SystemFunctionResource( $system_function );
+        }
     }
 
     /**
@@ -50,8 +54,8 @@ class SystemFunctionController extends Controller
      */
     public function show($id)
     {
-        $systemFunction = SystemFunction::all();
-        return view('systemFunction.show', ['systemFunction' => $systemFunction]);
+        $system_function = SystemFunction::findOrFail( $id );
+        return new SystemFunctionResource( $system_function );
     }
 
     /**
@@ -62,8 +66,7 @@ class SystemFunctionController extends Controller
      */
     public function edit($id)
     {
-        $systemFunction = SystemFunction::findOrFail($id);
-        return view('systemFunction.edit', ['systemFunction' => $systemFunction]);
+        //
     }
 
     /**
@@ -75,11 +78,13 @@ class SystemFunctionController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $systemFunction = SystemFunction::findOrFail($id);
-        $systemFunction->update([
-            'name' => $request->name,
-            'description' => $request->description,
-        ]);
+        $system_function = SystemFunction::findOrFail( $request->id );
+        $system_function->name = $request->input('name');
+        $system_function->description = $request->input('description');
+
+        if( $system_function->save() ){
+          return new SystemFunctionResource( $system_function );
+        }
     }
 
     /**
@@ -90,8 +95,10 @@ class SystemFunctionController extends Controller
      */
     public function destroy($id)
     {
-        $systemFunction = SystemFunction::findOrFail($id);
-        $systemFunction->delete();
-        return redirect()->route('systemFunction.create');
+        $system_function = SystemFunction::findOrFail( $id );
+        if( $system_function->delete() ){
+          return new SystemFunctionResource( $system_function );
+        }
+      }
     }
-}
+

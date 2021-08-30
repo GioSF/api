@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\Organization as OrganizationResource;
 use App\Models\Organization;
 use Illuminate\Http\Request;
 
@@ -14,7 +15,8 @@ class OrganizationController extends Controller
      */
     public function index()
     {
-        //
+        $organizations = Organization::paginate(15);
+        return OrganizationResource::collection($organizations);
     }
 
     /**
@@ -24,7 +26,7 @@ class OrganizationController extends Controller
      */
     public function create()
     {
-        return view('rganization.create');
+        //
     }
 
     /**
@@ -35,11 +37,13 @@ class OrganizationController extends Controller
      */
     public function store(Request $request)
     {
-        Organization::create([
-            'name' => $request->name,
-            'description' => $request->description,
-        ]);
-        return redirect()->route('organization.create');
+        $organization = new Organization();
+        $organization->name = $request->input('name');
+        $organization->description = $request->input('description');
+
+        if( $organization->save() ){
+          return new OrganizationResource( $organization );
+        }
     }
 
     /**
@@ -50,8 +54,8 @@ class OrganizationController extends Controller
      */
     public function show($id)
     {
-        $organizations = Organization::all();
-        return view('organization.show', ['organization' => $organizations]);
+        $organization = Organization::findOrFail( $id );
+        return new OrganizationResource( $organization );
     }
 
     /**
@@ -62,8 +66,7 @@ class OrganizationController extends Controller
      */
     public function edit($id)
     {
-        $organization = Organization::findOrFail($id);
-        return view('organization.edit', ['organization' => $organization]);
+        //
     }
 
     /**
@@ -75,11 +78,13 @@ class OrganizationController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $organization = Organization::findOrFail($id);
-        $organization->update([
-            'name' => $request->name,
-            'description' => $request->description,
-        ]);
+        $organization = Organization::findOrFail( $request->id );
+        $organization->name = $request->input('name');
+        $organization->description = $request->input('description');
+
+        if( $organization->save() ){
+          return new OrganizationResource( $organization );
+        }
     }
 
     /**
@@ -90,8 +95,10 @@ class OrganizationController extends Controller
      */
     public function destroy($id)
     {
-        $organization = Organization::findOrFail($id);
-        $organization->delete();
-        return redirect()->route('organization.create');
+        $organization = Organization::findOrFail( $id );
+        if( $organization->delete() ){
+          return new OrganizationResource( $organization );
+        }
+      }
     }
-}
+
