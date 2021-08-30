@@ -2,19 +2,21 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\File as FileResource;
 use App\Models\File;
 use Illuminate\Http\Request;
 
 class FileController extends Controller
 {
-    /**
+      /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
     public function index()
     {
-        //
+        $files = File::paginate(15);
+        return FileResource::collection($files);
     }
 
     /**
@@ -24,7 +26,7 @@ class FileController extends Controller
      */
     public function create()
     {
-        return view('file.create');
+        //
     }
 
     /**
@@ -35,13 +37,15 @@ class FileController extends Controller
      */
     public function store(Request $request)
     {
-        File::create([
-            'title' => $request->title,
-            'description' => $request->description,
-            'filepath' => $request->filepath,
-            'hash_name' => $request->hash_name,
-        ]);
-        return redirect()->route('file.create');
+        $file = new File();
+        $file->title = $request->input('title');
+        $file->description = $request->input('description');
+        $file->filepath = $request->input('filepath');
+        $file->hash_name = $request->input('hash_name');
+
+        if( $file->save() ){
+          return new FileResource( $file );
+        }
     }
 
     /**
@@ -52,8 +56,8 @@ class FileController extends Controller
      */
     public function show($id)
     {
-        $files = File::all();
-        return view('file.show', ['file' => $files]);
+        $file = File::findOrFail( $id );
+        return new FileResource( $file );
     }
 
     /**
@@ -64,8 +68,7 @@ class FileController extends Controller
      */
     public function edit($id)
     {
-        $file = File::findOrFail($id);
-        return view('file.edit', ['file' => $file]);
+        //
     }
 
     /**
@@ -77,13 +80,15 @@ class FileController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $file = File::findOrFail($id);
-        $file->update([
-            'title' => $request->title,
-            'description' => $request->description,
-            'filepath' => $request->filepath,
-            'hash_name' => $request->hash_name,
-        ]);
+        $file = File::findOrFail( $request->id );
+        $file->title = $request->input('title');
+        $file->description = $request->input('description');
+        $file->filepath = $request->input('filepath');
+        $file->hash_name = $request->input('hash_name');
+
+        if( $file->save() ){
+          return new FileResource( $file );
+        }
     }
 
     /**
@@ -94,8 +99,10 @@ class FileController extends Controller
      */
     public function destroy($id)
     {
-        $file = File::findOrFail($id);
-        $file->delete();
-        return redirect()->route('file.create');
+        $file = File::findOrFail( $id );
+        if( $file->delete() ){
+          return new FileResource( $file );
+        }
+      }
     }
-}
+
