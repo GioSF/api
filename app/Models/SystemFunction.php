@@ -12,6 +12,6 @@ class SystemFunction extends Model
     protected $fillable = ['name', 'description'];
 
     public function organizations(){
-        return $this->belongsToMany(Organization::class, 'organization_system_functions', 'id_system_functions', 'id_organization');
+        return $this->belongsToMany(Organization::class, 'organization_system_functions', 'id_system_function', 'id_organization');
     }
 }

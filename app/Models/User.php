@@ -44,6 +44,5 @@ class User extends Authenticatable
 
     public function organizations(){
         return $this->belongsToMany(Organization::class, 'organization_users', 'id_user', 'id_organization');
-        //organization_users é o nome da tabela pivot
     }
 }
