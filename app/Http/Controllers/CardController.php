@@ -2,19 +2,21 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\Card as CardResource;
 use App\Models\Card;
 use Illuminate\Http\Request;
 
 class CardController extends Controller
 {
-    /**
+      /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
     public function index()
     {
-        //
+        $cards = Card::paginate(15);
+        return CardResource::collection($cards);
     }
 
     /**
@@ -24,7 +26,7 @@ class CardController extends Controller
      */
     public function create()
     {
-        return view('card.create');
+        //
     }
 
     /**
@@ -35,15 +37,19 @@ class CardController extends Controller
      */
     public function store(Request $request)
     {
-        Card::create([
-            'subject' => $request->subject,
-            'date_issue' => $request->date_issue,
-            'duration_issue' => $request->duration_issue,
-            'abstract' => $request->abstract,
-            'comment' => $request->comment,
-            'issue' => $request->issue,
-        ]);
-        return redirect()->route('card.create');
+        $card = new Card();
+        $card->subject = $request->input('subject');
+        $card->date_issue = $request->input('date_issue');
+        $card->duration_issue = $request->input('duration_issue');
+        $card->abstract = $request->input('abstract');
+        $card->comment = $request->input('comment');
+        $card->issue = $request->input('issue');
+        $card->journal_id = $request->input('journal_id');
+        $card->organization_id = $request->input('organization_id');
+
+        if( $card->save() ){
+          return new CardResource( $card );
+        }
     }
 
     /**
@@ -54,9 +60,8 @@ class CardController extends Controller
      */
     public function show($id)
     {
-        $cards = Card::all();
-        // return $cards;
-        return view('card.show', ['cards' => $cards]);
+        $card = Card::findOrFail( $id );
+        return new CardResource( $card );
     }
 
     /**
@@ -67,8 +72,7 @@ class CardController extends Controller
      */
     public function edit($id)
     {
-        $card = Card::findOrFail($id);
-        return view('card.edit', ['card' => $card]);
+        //
     }
 
     /**
@@ -80,15 +84,19 @@ class CardController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $card = Card::findOrFail($id);
-        $card->update([
-            'subject' => $request->subject,
-            'date_issue' => $request->date_issue,
-            'duration_issue' => $request->duration_issue,
-            'abstract' => $request->abstract,
-            'comment' => $request->comment,
-            'issue' => $request->issue,
-        ]);
+        $card = Card::findOrFail( $request->id );
+        $card->subject = $request->input('subject');
+        $card->date_issue = $request->input('date_issue');
+        $card->duration_issue = $request->input('duration_issue');
+        $card->abstract = $request->input('abstract');
+        $card->comment = $request->input('comment');
+        $card->issue = $request->input('issue');
+        $card->journal_id = $request->input('journal_id');
+        $card->organization_id = $request->input('organization_id');
+
+        if( $card->save() ){
+          return new CardResource( $card );
+        }
     }
 
     /**
@@ -99,8 +107,10 @@ class CardController extends Controller
      */
     public function destroy($id)
     {
-        $card = Card::findOrFail($id);
-        $card->delete();
-        return redirect()->route('card.create');
+        $card = Card::findOrFail( $id );
+        if( $card->delete() ){
+          return new CardResource( $card );
+        }
+      }
     }
-}
+

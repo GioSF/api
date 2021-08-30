@@ -16,17 +16,19 @@ class CreateCardsTable extends Migration
         Schema::create('cards', function (Blueprint $table) {
             $table->id();
             $table->text('subject')->nullable();
-            $table->unsignedInteger('journal_id')->nullable(); //MUDAR PARA CHAVE ESTRANGEIRA
             $table->date('date_issue')->nullable();
             $table->date('duration_issue')->nullable();
             $table->text('abstract')->nullable();
             $table->text('comment')->nullable();
             $table->text('issue')->nullable();
-            $table->unsignedInteger('organization_id')->nullable();
-            $table->timestamps();
+            $table->unsignedBigInteger('journal_id')->nullable();
+            $table->unsignedBigInteger('organization_id')->nullable();
+            $table->foreign('journal_id')->references('id')->on('journals')->onDelete('cascade');
+            $table->foreign('organization_id')->references('id')->on('organizations')->onDelete('cascade');
 
-            // $table->foreign('journal_id')->references('id')->on('journal'); //MUDAR PARA CHAVE ESTRANGEIRA
-            // $table->foreign('organization_id')->references('id')->on('organization'); //MUDAR PARA CHAVE ESTRANGEIRA
+            //chaves -> chamar função na model
+
+            $table->timestamps();
         });
     }
 
