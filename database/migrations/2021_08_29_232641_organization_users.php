@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateOrganizationUsersTable extends Migration
+class OrganizationUsers extends Migration
 {
     /**
      * Run the migrations.
@@ -17,6 +17,9 @@ class CreateOrganizationUsersTable extends Migration
             $table->id();
             $table->unsignedBigInteger('id_user');
             $table->unsignedBigInteger('id_organization');
+
+            $table->foreign('id_user')->references('id')->on('users')->onDelete('cascade');
+            $table->foreign('id_organization')->references('id')->on('organizations')->onDelete('cascade');
             $table->timestamps();
         });
     }
@@ -29,8 +32,5 @@ class CreateOrganizationUsersTable extends Migration
     public function down()
     {
         Schema::dropIfExists('organization_users');
-
-        $table->foreign('id_user')->references('id')->on('users')->onDelete('cascade');
-        $table->foreign('id_organization')->references('id')->on('organization')->onDelete('cascade');
     }
 }
