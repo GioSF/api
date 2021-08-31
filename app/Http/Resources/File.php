@@ -19,9 +19,9 @@ class File extends JsonResource
             'type' => 'File',
             'attributes' => [
             'title' => $this->title,
-            'description' => $this->description,
-            'filepath' => $this->filepath,
-            'hash_name' => $this->hash_name
+                'description' => $this->description,
+                'filepath' => $this->filepath,
+                'hash_name' => $this->hash_name
             ]
         ];
     }
