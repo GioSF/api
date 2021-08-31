@@ -16,8 +16,11 @@ class SystemFunction extends JsonResource
     {
         return [
             'id' => $this->id,
+            'type' => 'SystemFunction',
+            'attributes' => [
             'name' => $this->name,
             'description' => $this->description
+            ]
         ];
     }
 }
