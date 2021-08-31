@@ -16,10 +16,13 @@ class File extends JsonResource
     {
         return [
             'id' => $this->id,
+            'type' => 'File',
+            'attributes' => [
             'title' => $this->title,
             'description' => $this->description,
             'filepath' => $this->filepath,
             'hash_name' => $this->hash_name
+            ]
         ];
     }
 }
