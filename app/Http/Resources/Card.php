@@ -16,14 +16,17 @@ class Card extends JsonResource
     {
         return [
             'id' => $this->id,
-            'subject' => $this->subject,
-            'date_issue' => $this->date_issue,
-            'duration_issue' => $this->duration_issue,
-            'abstract' => $this->abstract,
-            'comment' => $this->comment,
-            'issue' => $this->issue,
-            'journal_id' => $this->journal_id,
-            'organization_id' => $this->organization_id
+            'type' => 'Card',
+            'attributes' => [
+                'subject' => $this->subject,
+                'date_issue' => $this->date_issue,
+                'duration_issue' => $this->duration_issue,
+                'abstract' => $this->abstract,
+                'comment' => $this->comment,
+                'issue' => $this->issue,
+                'journal_id' => $this->journal_id,
+                'organization_id' => $this->organization_id
+            ]
         ];
     }
 }
