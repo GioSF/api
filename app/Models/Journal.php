@@ -2,12 +2,14 @@
 
 namespace App\Models;
 
+use App\Models\Concerns\BelongsToOrganization;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Journal extends Model
 {
-	use HasFactory;
+	use HasFactory,
+		BelongsToOrganization;
 
 	protected $fillable = [
 		'localization',
@@ -25,4 +27,5 @@ class Journal extends Model
 		'created_at' => 'datetime',
 		'updated_at' => 'datetime'
 	];
+	
 }

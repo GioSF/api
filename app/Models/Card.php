@@ -2,12 +2,14 @@
 
 namespace App\Models;
 
+use App\Models\Concerns\BelongsToOrganization;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Card extends Model
 {
-	use HasFactory;
+	use HasFactory,
+		BelongsToOrganization;
 
 	protected $fillable = [
 		'subject', 'journal_id', 'date_issue', 'duration_issue', 'abstract', 'comment', 'issue', 'organization_id',
@@ -25,13 +27,11 @@ class Card extends Model
 		// \App\Models\Card::observe(\App\Observers\CardObserver::class);
 	}
 
+	//Eloquent relations
+
 	public function journal()
 	{
 		return $this->belongsTo(\App\Models\Journal::class);
 	}
 
-	public function organization()
-	{
-		return $this->belongsTo(\App\Models\Organization::class);
-	}
 }

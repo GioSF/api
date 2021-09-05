@@ -19,4 +19,7 @@ Route::middleware('auth:api')->prefix('v1')->group(function() {
 	});
 
 	Route::apiResource('cards', \App\Http\Controllers\CardController::class);
+	Route::apiResource('journals', \App\Http\Controllers\JournalsController::class);
+	Route::apiResource('news', \App\Http\Controllers\NewsController::class);
+	
 });
