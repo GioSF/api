@@ -8,6 +8,9 @@ use Illuminate\Database\Eloquent\Model;
 class Journal extends Model
 {
 	use HasFactory;
+	
+	const JORNAL = 1;
+	const REVISTA = 2;
 
 	protected $fillable = [
 		'localization',
