@@ -17,11 +17,6 @@ class JournalsSeeder extends Seeder
 	public function run()
 	{
 		$journal = new Journal();
-		$journal->title = 'Sem Informação';
-		$journal->initials = NULL;
-		$journal->format_type = NULL;
-		$journal->save();
-
 		$listaPeriodicos = $this->getListaPeriodicos();
 
 		foreach ($listaPeriodicos as $item)
@@ -187,7 +182,11 @@ class JournalsSeeder extends Seeder
 				'initials' => 'GC',
 				'format_type' => '2',
 			],
-
+			[
+				'title' => 'Sem Informação',
+				'initials' => NULL,
+				'format_type' => NULL,
+			],
 		];
 	}
 }

@@ -18,13 +18,12 @@ class CreateCardsTable extends Migration
 			$table->text('subject')->nullable();
 			$table->date('date_issue')->nullable();
 			$table->date('duration_issue')->nullable();
+			$table->integer('page')->nullable();
 			$table->text('abstract')->nullable();
 			$table->text('comment')->nullable();
 			$table->text('issue')->nullable();
 			$table->unsignedBigInteger('journal_id')->nullable();
 			$table->unsignedBigInteger('organization_id')->nullable();
-			$table->foreign('journal_id')->references('id')->on('journals')->onDelete('cascade');
-			$table->foreign('organization_id')->references('id')->on('organizations')->onDelete('cascade');
 
 			$table->timestamps();
 		});
