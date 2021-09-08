@@ -8,101 +8,87 @@ use Illuminate\Http\Request;
 
 class FileController extends Controller
 {
-      /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-        $files = File::paginate(15);
-        return FileResource::collection($files);
-    }
+	/**
+	 * Display a listing of the resource.
+	 *
+	 * @return \Illuminate\Http\Response
+	 */
+	public function index()
+	{
+		$files = File::paginate(15);
+		return FileResource::collection($files);
+	}
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
+	/**
+	 * Show the form for creating a new resource.
+	 *
+	 * @return \Illuminate\Http\Response
+	 */
+	public function create()
+	{
+		//
+	}
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        $file = new File();
-        $file->title = $request->input('title');
-        $file->description = $request->input('description');
-        $file->filepath = $request->input('filepath');
-        $file->hash_name = $request->input('hash_name');
+	/**
+	 * Store a newly created resource in storage.
+	 *
+	 * @param  \Illuminate\Http\Request  $request
+	 * @return \Illuminate\Http\Response
+	 */
+	public function store(Request $request, File $file)
+	{
+		$file->create($request->all());
 
-        if( $file->save() ){
-          return new FileResource( $file );
-        }
-    }
+		return new FileResource( $file );
+	}
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        $file = File::findOrFail( $id );
-        return new FileResource( $file );
-    }
+	/**
+	 * Display the specified resource.
+	 *
+	 * @param  int  $id
+	 * @return \Illuminate\Http\Response
+	 */
+	public function show(File $file)
+	{
+		return new FileResource( $file );
+	}
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
+	/**
+	 * Show the form for editing the specified resource.
+	 *
+	 * @param  int  $id
+	 * @return \Illuminate\Http\Response
+	 */
+	public function edit(File $file)
+	{
+		return new FileResource( $file );
+	}
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        $file = File::findOrFail( $request->id );
-        $file->title = $request->input('title');
-        $file->description = $request->input('description');
-        $file->filepath = $request->input('filepath');
-        $file->hash_name = $request->input('hash_name');
+	/**
+	 * Update the specified resource in storage.
+	 *
+	 * @param  \Illuminate\Http\Request  $request
+	 * @param  int  $id
+	 * @return \Illuminate\Http\Response
+	 */
+	public function update(Request $request, File $file)
+	{
+		$file->update($request->all());
 
-        if( $file->save() ){
-          return new FileResource( $file );
-        }
-    }
+		return new FileResource($file);
+	}
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        $file = File::findOrFail( $id );
-        if( $file->delete() ){
-          return new FileResource( $file );
-        }
-      }
-    }
+	/**
+	 * Remove the specified resource from storage.
+	 *
+	 * @param  int  $id
+	 * @return \Illuminate\Http\Response
+	 */
+	public function destroy(File $file)
+	{
+		if ($file->delete()){
+		return new FileResource( $file );
+		}
+	}
+}
 

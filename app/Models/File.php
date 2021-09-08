@@ -7,9 +7,9 @@ use Illuminate\Database\Eloquent\Model;
 
 class File extends Model
 {
-    use HasFactory;
+	use HasFactory;
 
-    protected $fillable = [
+	protected $fillable = [
 		'title', 'description', 'filepath', 'hash_name',
 	];
 }
