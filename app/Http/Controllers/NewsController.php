@@ -36,7 +36,7 @@ class NewsController extends Controller
 	 */
 	public function store(Request $request, News $news)
 	{
-		$news = News::create($request->all());
+		$news = $news->create($request->all());
 		
 		return new NewsResource($news);
 	}

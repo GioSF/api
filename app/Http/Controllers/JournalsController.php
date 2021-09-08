@@ -36,7 +36,7 @@ class JournalsController extends Controller
 	 */
 	public function store(Request $request, Journal $journal)
 	{
-		$journal = Journal::create($request->all());
+		$journal = $journal->create($request->all());
 
 		return new JournalsResource($journal);
 	}
