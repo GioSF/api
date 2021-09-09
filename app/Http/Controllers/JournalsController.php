@@ -36,8 +36,7 @@ class JournalsController extends Controller
 	 */
 	public function store(Request $request, Journal $journal)
 	{
-		$journal->fill($request->all());
-		$journal->save();
+		$journal = $journal->create($request->all());
 
 		return new JournalsResource($journal);
 	}
@@ -73,9 +72,7 @@ class JournalsController extends Controller
 	 */
 	public function update(Request $request, Journal $journal)
 	{
-		$input = $request->all();
-		$journal->update($input);
-		$journal->save();
+		$journal->update($request->all());
 
 		return new JournalsResource($journal);
 	}
