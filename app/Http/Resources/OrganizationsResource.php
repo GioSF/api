@@ -19,9 +19,9 @@ class OrganizationsResource extends JsonResource
             'id' => (string) $this->id,
             'type' => 'Organizations',
             'attributes' => [
-                'slug' => $this->localization,
-                'description' => $this->title,
-                'google_maps_link' => $this->printing,
+                'slug' => $this->slug,
+                'description' => $this->description,
+                'google_maps_link' => $this->google_maps_link,
                 'created_at' => $this->created_at,
                 'updated_at' => $this->updated_at
             ]

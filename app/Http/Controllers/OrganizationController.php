@@ -2,8 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Organization;
 use App\Http\Resources\OrganizationsResource;
+use App\Models\Organization;
+
 use Illuminate\Http\Request;
 
 class OrganizationController extends Controller
@@ -34,15 +35,11 @@ class OrganizationController extends Controller
 	 * @param  \Illuminate\Http\Request  $request
 	 * @return \Illuminate\Http\Response
 	 */
-	public function store(Request $request)
+	public function store(Request $request, Organization $organization)
 	{
-		$organization = Organization::create([
-			'slug' => $request->slug,
-			'description' => $request->description,
-			'google_maps_link' => $request->google_maps_link,
-		]);
+        $organization = $organization->create($request->all());
 
-		return new OrganizationsResource($journal);
+		return new OrganizationsResource($organization);
 	}
 
 	/**
@@ -76,9 +73,9 @@ class OrganizationController extends Controller
 	 */
 	public function update(Request $request, Organization $organization)
 	{
-		$organization->fill($request->attributes);
-		$organization->save();
-		return new OrganizationsResource($journal);
+		$organization->update($request->all());
+
+		return new OrganizationsResource($organization);
 	}
 
 	/**
