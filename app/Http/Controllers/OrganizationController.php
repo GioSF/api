@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreUpdateOrganizationRequest;
 use App\Http\Resources\OrganizationsResource;
 use App\Models\Organization;
 
@@ -32,10 +33,10 @@ class OrganizationController extends Controller
 	/**
 	 * Store a newly created resource in storage.
 	 *
-	 * @param  \Illuminate\Http\Request  $request
+	 * @param  \App\Http\Requests\StoreUpdateOrganizationRequest  $request
 	 * @return \Illuminate\Http\Response
 	 */
-	public function store(Request $request, Organization $organization)
+	public function store(StoreUpdateOrganizationRequest $request, Organization $organization)
 	{
         $organization = $organization->create($request->all());
 
@@ -67,11 +68,11 @@ class OrganizationController extends Controller
 	/**
 	 * Update the specified resource in storage.
 	 *
-	 * @param  \Illuminate\Http\Request  $request
+	 * @param  \App\Http\Requests\StoreUpdateOrganizationRequest  $request
 	 * @param  \App\Models\Organization  $organization
 	 * @return \Illuminate\Http\Response
 	 */
-	public function update(Request $request, Organization $organization)
+	public function update(StoreUpdateOrganizationRequest $request, Organization $organization)
 	{
 		$organization->update($request->all());
 

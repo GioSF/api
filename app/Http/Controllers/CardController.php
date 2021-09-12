@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreUpdateCardRequest;
 use App\Http\Resources\CardResource;
 use App\Models\Card;
 use Illuminate\Http\Request;
@@ -31,10 +32,10 @@ class CardController extends Controller
 	/**
 	 * Store a newly created resource in storage.
 	 *
-	 * @param  \Illuminate\Http\Request  $request
+	 * @param  \App\Http\Requests\StoreUpdateCardRequest  $request
 	 * @return \Illuminate\Http\Response
 	 */
-	public function store(Request $request, Card $card)
+	public function store(StoreUpdateCardRequest $request, Card $card)
 	{
         $card = $card->create($request->all());
 
@@ -66,11 +67,11 @@ class CardController extends Controller
 	/**
 	 * Update the specified resource in storage.
 	 *
-	 * @param  \Illuminate\Http\Request  $request
+	 * @param  \App\Http\Requests\StoreUpdateCardRequest $request
 	 * @param  \App\Models\Card $card
 	 * @return \Illuminate\Http\Response
 	 */
-	public function update(Request $request, Card $card)
+	public function update(StoreUpdateCardRequest $request, Card $card)
 	{
         $card->update($request->all());
 
