@@ -25,7 +25,6 @@ class IssuesResource extends JsonResource
                 'start_date' => $this->start_date,
                 'end_date' => $this->end_date,
                 'number_pages' => $this->number_pages,
-                'pages' => $this->pages,
                 'journal_id' => (string) $this->journal_id,
                 'journal' => $this->journal,
                 'created_at' => $this->created_at,
