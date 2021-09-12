@@ -22,7 +22,6 @@ class PagesResource extends JsonResource
                 'filepath' => $this->filepath,
                 'content' => $this->content,
                 'issue_id' => (string) $this->issue_id,
-                'issue' => $this->issue,
                 'created_at' => $this->created_at,
                 'updated_at' => $this->updated_at
             ]
