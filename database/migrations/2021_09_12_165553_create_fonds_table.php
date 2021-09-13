@@ -19,7 +19,7 @@ class CreateFondsTable extends Migration
             $table->text('description')->nullable();
             $table->text('notes')->nullable();
             $table->unsignedBigInteger('organization_id');
-            $table->foreign('organization_id')->references('id')->on('organizations')->onDelete('cascade');
+            $table->foreign('organization_id')->references('id')->on('organizations');
             $table->timestamps();
         });
     }
