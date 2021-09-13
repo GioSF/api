@@ -34,7 +34,7 @@ class FondsController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request, Fonds $fonds)
+    public function store(Request $request, Fonds $fond)
     {
         $fond = $fond->create($request->all());
 		
