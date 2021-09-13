@@ -34,4 +34,8 @@ class Card extends Model
 		return $this->belongsTo(\App\Models\Journal::class);
 	}
 
+	public function cardable()
+	{
+		return $this->morphTo();
+	}
 }
