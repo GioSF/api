@@ -23,7 +23,7 @@ class CreateIssuesTable extends Migration
             $table->dateTime('end_date');
             $table->integer('number_pages');
             $table->unsignedBigInteger('journal_id');
-            $table->foreign('journal_id')->references('id')->on('journals')->;
+            $table->foreign('journal_id')->references('id')->on('journals');
             $table->timestamps();
         });
     }
