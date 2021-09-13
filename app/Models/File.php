@@ -12,4 +12,8 @@ class File extends Model
 	protected $fillable = [
 		'title', 'description', 'filepath', 'hash_name',
 	];
+
+    public function fileable(){
+        return $this->morphTo();
+    }
 }
