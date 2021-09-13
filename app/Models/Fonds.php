@@ -2,11 +2,14 @@
 
 namespace App\Models;
 
+use App\Models\Concerns\BelongsToOrganization;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Fonds extends Model
 {
+    use BelongsToOrganization;
+
     protected $fillable = [
         'title',
         'description',
@@ -18,8 +21,4 @@ class Fonds extends Model
 		'created_at' => 'datetime',
 		'updated_at' => 'datetime'
 	];
-
-    public function organization() {
-        return $this->belongsTo(Organization::class);
-    }
 }
