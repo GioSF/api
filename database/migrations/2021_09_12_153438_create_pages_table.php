@@ -19,7 +19,7 @@ class CreatePagesTable extends Migration
             $table->char('filepath');
             $table->text('content');
             $table->unsignedBigInteger('issue_id');
-            $table->foreign('issue_id')->references('id')->on('issues')->onDelete('cascade');
+            $table->foreign('issue_id')->references('id')->on('issues');
             $table->timestamps();
         });
     }
