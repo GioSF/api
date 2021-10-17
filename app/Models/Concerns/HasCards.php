@@ -11,4 +11,9 @@ trait HasCards
 	{
 		return $this->morphToMany(Card::class, 'cardable');
 	}
+
+	public function cardable()
+	{
+		return $this->morphTo();
+	}
 }
