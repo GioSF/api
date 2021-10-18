@@ -43,4 +43,8 @@ class Organization extends Model
 		return $this->hasMany(\App\Models\News::class);
 	}
 
+    public function users(){
+        return $this->belongsToMany(User::class, 'organization_users', 'id_organization', 'id_user');
+    }
+
 }

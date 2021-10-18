@@ -17,8 +17,8 @@ class CreateOrganizationUsersTable extends Migration
             $table->id();
             $table->unsignedBigInteger('id_user');
             $table->unsignedBigInteger('id_organization');
-            $table->foreign('id_user')->references('id')->on('users')->onDelete('cascade');
-            $table->foreign('id_organization')->references('id')->on('organizations')->onDelete('cascade');
+            $table->foreign('id_user')->references('id')->on('users');
+            $table->foreign('id_organization')->references('id')->on('organizations');
             $table->timestamps();
         });
     }
