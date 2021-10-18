@@ -17,7 +17,7 @@ class Fileables extends Migration
             $table->id();
             $table->morphs('fileable');
             $table->unsignedBigInteger('file_id');
-            $table->foreign('file_id')->references('id')->on('files')->onDelete('cascade');
+            $table->foreign('file_id')->references('id')->on('files');
             $table->timestamps();
         });
     }
