@@ -8,4 +8,18 @@ use Illuminate\Database\Eloquent\Model;
 class Contribuition extends Model
 {
     use HasFactory;
+
+    protected $fillable = [
+		'contribuition', 'feedback_admin', 'user_id',
+	];
+
+	public function contribuible()
+	{
+		return $this->morphTo();
+	}
+
+    public function user(): \Illuminate\Database\Eloquent\Relations\hasOne
+	{
+		return $this->hasOne(User::class);
+	}
 }
