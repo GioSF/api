@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\StoreUpdateContribuitionRequest;
-use App\Http\Resources\ContribuitionsResource;
-use App\Models\Contribuition;
+use App\Http\Requests\StoreUpdateContributionRequest;
+use App\Http\Resources\ContributionsResource;
+use App\Models\Contribution;
 use Illuminate\Http\Request;
 
-class ContribuitionController extends Controller
+class ContributionController extends Controller
 {
 	/**
 	 * Display a listing of the resource.
@@ -16,7 +16,7 @@ class ContribuitionController extends Controller
 	 */
 	public function index()
 	{
-		return ContribuitionsResource::collection(Contribuition::all());
+		return ContributionsResource::collection(Contribution::all());
 	}
 
 	/**
@@ -35,11 +35,11 @@ class ContribuitionController extends Controller
 	 * @param  \Illuminate\Http\Request  $request
 	 * @return \Illuminate\Http\Response
 	 */
-	public function store(StoreUpdateContribuitionRequest $request, Contribuition $contribuition)
+	public function store(StoreUpdateContributionRequest $request, Contribution $contribution)
 	{
-		$contribuition = $contribuition->create($request->all());
+		$contribution = $contribution->create($request->all());
 
-		return new ContribuitionsResource($contribuition);
+		return new ContributionsResource($contribution);
 	}
 
 	/**
@@ -48,9 +48,9 @@ class ContribuitionController extends Controller
 	 * @param  int  $id
 	 * @return \Illuminate\Http\Response
 	 */
-	public function show(Contribuition $contribuition)
+	public function show(Contributions $contribution)
 	{
-		return new ContribuitionsResource($contribuition);
+		return new ContributionsResource($contribution);
 	}
 
 	/**
@@ -59,9 +59,9 @@ class ContribuitionController extends Controller
 	 * @param  int  $id
 	 * @return \Illuminate\Http\Response
 	 */
-	public function edit(Contribuition $contribuition)
+	public function edit(Contribution $contribution)
 	{
-		return new ContribuitionsResource($contribuition);
+		return new ContributionsResource($contribution);
 	}
 
 	/**
@@ -71,11 +71,11 @@ class ContribuitionController extends Controller
 	 * @param  int  $id
 	 * @return \Illuminate\Http\Response
 	 */
-	public function update(StoreUpdateContribuitionRequest $request, Contribuition $contribuition)
+	public function update(StoreUpdateContributionRequest $request, Contribution $contribution)
 	{
-		$contribuition->update($request->all());
+		$contribution->update($request->all());
 
-		return new ContribuitionsResource($contribuition);
+		return new ContributionsResource($contribution);
 	}
 
 	/**
@@ -84,9 +84,9 @@ class ContribuitionController extends Controller
 	 * @param  int  $id
 	 * @return \Illuminate\Http\Response
 	 */
-	public function destroy(Contribuition $contribuition)
+	public function destroy(Contribution $contribution)
 	{
-		$contribuition->delete();
+		$contribution->delete();
 		return response(null, 204);
 	}
 }
