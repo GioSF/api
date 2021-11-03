@@ -4,7 +4,7 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class ContribuitionsResource extends JsonResource
+class ContributionsResource extends JsonResource
 {
 	/**
 	 * Transform the resource into an array.
@@ -16,9 +16,9 @@ class ContribuitionsResource extends JsonResource
 	{
 		return [
 			'id' => (string) $this->id,
-			'type' => 'Contribuitions',
+			'type' => 'Contributions',
 			'attributes' => [
-				'contribuition' => $this->contribuition,
+				'contribution' => $this->contribution,
 				'feedback_admin' => $this->feedback_admin,
 				'user_id' => $this->user_id
 			]
