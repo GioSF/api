@@ -9,10 +9,10 @@ use Illuminate\Database\Eloquent\Model;
 
 class Organization extends Model
 {
-    use HasFactory,
-    HasFiles;
+	use HasFactory,
+		HasFiles;
 
-  protected $fillable = ['slug', 'description', 'google_maps_link'];
+	protected $fillable = ['slug', 'description', 'google_maps_link'];
 
 	//Eloquent relations
 
