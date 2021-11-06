@@ -7,9 +7,9 @@ use App\Models\File;
 trait HasFiles
 {
 
-	public function files(): \Illuminate\Database\Eloquent\Relations\HasMany
+	public function files()
 	{
-		return $this->hasMany(File::class);
+		return $this->morphToMany(File::class, 'fileable');
 	}
 
 }
