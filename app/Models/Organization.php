@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Organization extends Model
 {
-    use HasFactory;
+	use HasFactory;
 
 	protected $fillable = ['slug', 'description', 'google_maps_link'];
 
@@ -41,6 +41,11 @@ class Organization extends Model
 	public function news(): \Illuminate\Database\Eloquent\Relations\HasMany
 	{
 		return $this->hasMany(\App\Models\News::class);
+	}
+
+	public function users(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
+	{
+		return $this->belongsToMany(User::class);
 	}
 
 }
