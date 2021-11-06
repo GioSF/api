@@ -12,7 +12,7 @@ class Organization extends Model
     use HasFactory,
     HasFiles;
 
-	protected $fillable = ['slug', 'description', 'google_maps_link'];
+  protected $fillable = ['slug', 'description', 'google_maps_link'];
 
 	//Eloquent relations
 
@@ -43,6 +43,11 @@ class Organization extends Model
 	public function news(): \Illuminate\Database\Eloquent\Relations\HasMany
 	{
 		return $this->hasMany(\App\Models\News::class);
+	}
+
+	public function users(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
+	{
+		return $this->belongsToMany(User::class);
 	}
 
 }
