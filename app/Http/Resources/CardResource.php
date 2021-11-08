@@ -22,7 +22,6 @@ class CardResource extends JsonResource
                 'date_issue' => $this->date_issue,
                 'duration_issue' => $this->duration_issue,
                 'abstract' => $this->abstract,
-                'page' => $this->page,
                 'comment' => $this->comment,
                 'issue' => $this->issue,
                 'organization_id' => $this->organization_id
