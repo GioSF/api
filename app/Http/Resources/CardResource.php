@@ -4,7 +4,7 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class Card extends JsonResource
+class CardResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -15,8 +15,8 @@ class Card extends JsonResource
     public function toArray($request)
     {
         return [
-            'id' => $this->id,
-            'type' => 'Card',
+            'id' => (string) $this->id,
+            'type' => 'Cards',
             'attributes' => [
                 'subject' => $this->subject,
                 'date_issue' => $this->date_issue,
@@ -24,7 +24,6 @@ class Card extends JsonResource
                 'abstract' => $this->abstract,
                 'comment' => $this->comment,
                 'issue' => $this->issue,
-                'journal_id' => $this->journal_id,
                 'organization_id' => $this->organization_id
             ]
         ];

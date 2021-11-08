@@ -15,15 +15,14 @@ class CreateCardsTable extends Migration
 	{
 		Schema::create('cards', function (Blueprint $table) {
 			$table->id();
-			$table->text('subject')->nullable();
-			$table->date('date_issue')->nullable();
-			$table->date('duration_issue')->nullable();
-			$table->integer('page')->nullable();
-			$table->text('abstract')->nullable();
-			$table->text('comment')->nullable();
-			$table->text('issue')->nullable();
-			$table->unsignedBigInteger('journal_id')->nullable();
-			$table->unsignedBigInteger('organization_id')->nullable();
+			$table->text('subject');
+			$table->date('date_issue');
+			$table->date('duration_issue');
+            $table->text('abstract');
+			$table->text('comment');
+			$table->text('issue');
+			$table->unsignedBigInteger('organization_id');
+            $table->foreign('organization_id')->references('id')->on('organizations')->onDelete('cascade');
 
 			$table->timestamps();
 		});
