@@ -1,6 +1,6 @@
 <?php
 
-namespace Database\Seeds;
+namespace Database\Seeders;
 
 use App\Models\Issue;
 use App\Models\Page;
@@ -55,7 +55,7 @@ class IssuesSeeder extends Seeder
 				$issue->title = $datas['inicio']->format('d_m_Y');
 				$issue->number_pages = count($filesystem->files($folderpath));
 				$issue->periodicity = $this->obterPeriodicidadeIssue($datas);
-				$issue->original_date = $origDir;
+				$issue->original_date = $datas['inicio'];
 				$issue->start_date = $datas['inicio'];
 				$issue->end_date = $datas['termino'];
 				$issue->save();
