@@ -18,5 +18,6 @@ class DatabaseSeeder extends Seeder
 		$this->call(\Database\Seeders\JournalsSeeder::class);
 		$this->call(\Database\Seeders\UserOrganizationSeeder::class);
 		$this->call(\Database\Seeders\CreateFileResourcesRelationship::class);
+		$this->call(\Database\Seeders\CreateSystemFunctionsWithOrganizationRelationship::class);
 	}
 }
