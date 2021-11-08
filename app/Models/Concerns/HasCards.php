@@ -7,9 +7,9 @@ use App\Models\Card;
 trait HasCards
 {
 
-	public function cards(): \Illuminate\Database\Eloquent\Relations\MorphToMany
+	public function cards(): \Illuminate\Database\Eloquent\Relations\MorphOne
 	{
-		return $this->morphToMany(Card::class, 'cardable');
+		return $this->morphOne(Card::class, 'cardable');
 	}
 
 	public function cardable()
