@@ -2,11 +2,14 @@
 
 namespace App\Models;
 
+use App\Models\Concerns\HasCards;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Issue extends Model
 {
+	use HasCards;
+
 	const DIARIO = 1;
 	const SEMANAL = 2;
 	const QUINZENAL = 3;
