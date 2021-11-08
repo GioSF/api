@@ -17,7 +17,6 @@ Route::middleware('auth:api')->prefix('v1')->group(function() {
 	Route::get('/user', function(Request $request){
 		return $request->user();
 	});
-
 });
 
 Route::apiResource('cards', \App\Http\Controllers\CardController::class);
