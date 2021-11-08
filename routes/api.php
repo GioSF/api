@@ -25,4 +25,5 @@ Route::apiResource('documents', \App\Http\Controllers\DocumentController::class)
 Route::apiResource('issues', \App\Http\Controllers\IssueController::class);
 Route::apiResource('journals', \App\Http\Controllers\JournalsController::class);
 Route::apiResource('news', \App\Http\Controllers\NewsController::class);
+Route::apiResource('pages', \App\Http\Controllers\PageController::class);
 

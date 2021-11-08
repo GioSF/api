@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Page extends Model
 {
-    protected $fillable = [
+	protected $fillable = [
 		'page_number',
 		'filepath',
 		'content',
@@ -19,7 +19,8 @@ class Page extends Model
 		'updated_at' => 'datetime'
 	];
 
-    public function issue() {
-        return $this->belongsTo(Issue::class);
-    }
+	public function issue()
+	{
+		return $this->belongsTo(Issue::class);
+	}
 }
