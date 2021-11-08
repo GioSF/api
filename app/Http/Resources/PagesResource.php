@@ -3,9 +3,8 @@
 namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
-use Carbon\Carbon;
 
-class JournalsResource extends JsonResource
+class PagesResource extends JsonResource
 {
 	/**
 	 * Transform the resource into an array.
@@ -17,15 +16,12 @@ class JournalsResource extends JsonResource
 	{
 		return [
 			'id' => (string) $this->id,
-			'type' => 'Journals',
+			'type' => 'Pages',
 			'attributes' => [
-				'localization' => $this->localization,
-				'title' => $this->title,
-				'printing' => $this->printing,
-				'idiom' => $this->idiom,
-				'creation_date' => $this->creation_date,
-				'end_date' => $this->end_date,
-				'issues' => $this->issues,
+				'page_number' => $this->page_number,
+				'filepath' => $this->filepath,
+				'content' => $this->content,
+				'issue_id' => (string) $this->issue_id,
 				'created_at' => $this->created_at,
 				'updated_at' => $this->updated_at
 			]

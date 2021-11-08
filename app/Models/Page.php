@@ -2,22 +2,16 @@
 
 namespace App\Models;
 
-use App\Models\Concerns\BelongsToOrganization;
-use App\Models\Concerns\HasFiles;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class News extends Model
+class Page extends Model
 {
-	use HasFactory,
-		BelongsToOrganization,
-		HasFiles;
-
 	protected $fillable = [
-		'title',
-		'subtitle',
+		'page_number',
+		'filepath',
 		'content',
-		'status'
+		'issue_id'
 	];
 
 	protected $casts = [
@@ -25,4 +19,8 @@ class News extends Model
 		'updated_at' => 'datetime'
 	];
 
+	public function issue()
+	{
+		return $this->belongsTo(Issue::class);
+	}
 }

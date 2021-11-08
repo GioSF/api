@@ -31,5 +31,9 @@ class Journal extends Model
 		'created_at' => 'datetime',
 		'updated_at' => 'datetime'
 	];
+
+	public function issues() {
+		return $this->hasMany(Issue::class);
+	}
 	
 }

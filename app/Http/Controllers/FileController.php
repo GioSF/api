@@ -86,9 +86,8 @@ class FileController extends Controller
 	 */
 	public function destroy(File $file)
 	{
-		if ($file->delete()){
-		return new FileResource( $file );
-		}
+		$file->delete();
+		return response(null, 204);
 	}
 }
 
