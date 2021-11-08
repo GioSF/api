@@ -7,11 +7,30 @@ use Illuminate\Database\Eloquent\Model;
 
 class SystemFunction extends Model
 {
-    use HasFactory;
+	use HasFactory;
 
-    protected $fillable = ['name', 'description', 'parent_system_function'];
+	protected $fillable = ['name', 'description', 'parent_system_function'];
 
-    public function organizations(){
-        return $this->belongsToMany(Organization::class, 'organization_system_functions', 'id_system_function', 'id_organization');
-    }
+	static public function build(?string $name = null, ?string $description = null, ?string $parentSystemFunction = null)
+	{
+		$systemFunction = self::where('name', $name)
+			->where('description', $description)
+			->where('parent_system_function', $parentSystemFunction)
+			->first();
+
+		if (!$systemFunction)
+		{
+			$systemFunction = new self;
+			$systemFunction->name = $name;
+			$systemFunction->description = $description;
+			$systemFunction->parent_system_function = $parentSystemFunction;
+		}
+
+		return $systemFunction;
+	}
+
+	public function organizations()
+	{
+		return $this->belongsToMany(\App\Models\Organization::class);
+	}
 }

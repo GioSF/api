@@ -50,4 +50,9 @@ class Organization extends Model
 		return $this->belongsToMany(User::class);
 	}
 
+	public function systemFunctions()
+	{
+		return $this->belongsToMany(\App\Models\SystemFunction::class);
+	}
+
 }
