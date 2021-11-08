@@ -2,12 +2,14 @@
 
 namespace App\Models;
 
+use App\Models\Concerns\HasCards;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Document extends Model
 {
-	use HasFactory;
+	use HasFactory,
+		HasCards;
 
 	protected $fillable = [
 		'file_path', 'content', 'organization_id'

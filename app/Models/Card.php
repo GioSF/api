@@ -12,7 +12,7 @@ class Card extends Model
 		BelongsToOrganization;
 
 	protected $fillable = [
-		'subject', 'journal_id', 'date_issue', 'duration_issue', 'abstract', 'comment', 'issue', 'organization_id',
+		'subject', 'date_issue', 'duration_issue', 'abstract', 'comment', 'issue',
 	];
 
 	protected $casts = [
@@ -21,17 +21,12 @@ class Card extends Model
 		'duration_issue' => 'datetime',
 	];
 
-	public static function boot()
-	{
-		// parent::boot();
-		// \App\Models\Card::observe(\App\Observers\CardObserver::class);
-	}
 
 	//Eloquent relations
 
-	public function journal()
+	public function cardable()
 	{
-		return $this->belongsTo(\App\Models\Journal::class);
+		return $this->morphTo();
 	}
 
 }

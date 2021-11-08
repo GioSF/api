@@ -22,5 +22,6 @@ class DatabaseSeeder extends Seeder
 		$this->call(\Database\Seeders\CreateRolesSeeder::class);
 		$this->call(\Database\Seeders\CreateUserRoleRelationshipSeeder::class);
 		// $this->call(\Database\Seeders\IssuesSeeder::class);
+		$this->call(\Database\Seeders\CardSeeder::class);
 	}
 }
