@@ -16,7 +16,7 @@ class CardController extends Controller
 	 */
 	public function index()
 	{
-        return CardResource::collection(Card::all());
+		return CardResource::collection(Card::all());
 	}
 
 	/**
@@ -37,7 +37,7 @@ class CardController extends Controller
 	 */
 	public function store(StoreUpdateCardRequest $request, Card $card)
 	{
-        $card = $card->create($request->all());
+		$card = $card->create($request->all());
 
 		return new CardResource($card);
 		}
@@ -73,7 +73,7 @@ class CardController extends Controller
 	 */
 	public function update(StoreUpdateCardRequest $request, Card $card)
 	{
-        $card->update($request->all());
+		$card->update($request->all());
 
 		return new CardResource($card);
 	}
@@ -86,7 +86,7 @@ class CardController extends Controller
 	 */
 	public function destroy(Card $card)
 	{
-        $card->delete();
+		$card->delete();
 		return response(null, 204);
 	}
 }
