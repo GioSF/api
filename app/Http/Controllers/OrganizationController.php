@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Organization;
+use App\Http\Requests\StoreUpdateOrganizationRequest;
 use App\Http\Resources\OrganizationsResource;
+use App\Models\Organization;
+
 use Illuminate\Http\Request;
 
 class OrganizationController extends Controller
@@ -31,18 +33,14 @@ class OrganizationController extends Controller
 	/**
 	 * Store a newly created resource in storage.
 	 *
-	 * @param  \Illuminate\Http\Request  $request
+	 * @param  \App\Http\Requests\StoreUpdateOrganizationRequest  $request
 	 * @return \Illuminate\Http\Response
 	 */
-	public function store(Request $request)
+	public function store(StoreUpdateOrganizationRequest $request, Organization $organization)
 	{
-		$organization = Organization::create([
-			'slug' => $request->slug,
-			'description' => $request->description,
-			'google_maps_link' => $request->google_maps_link,
-		]);
+        $organization = $organization->create($request->all());
 
-		return new OrganizationsResource($journal);
+		return new OrganizationsResource($organization);
 	}
 
 	/**
@@ -70,15 +68,15 @@ class OrganizationController extends Controller
 	/**
 	 * Update the specified resource in storage.
 	 *
-	 * @param  \Illuminate\Http\Request  $request
+	 * @param  \App\Http\Requests\StoreUpdateOrganizationRequest  $request
 	 * @param  \App\Models\Organization  $organization
 	 * @return \Illuminate\Http\Response
 	 */
-	public function update(Request $request, Organization $organization)
+	public function update(StoreUpdateOrganizationRequest $request, Organization $organization)
 	{
-		$organization->fill($request->attributes);
-		$organization->save();
-		return new OrganizationsResource($journal);
+		$organization->update($request->all());
+
+		return new OrganizationsResource($organization);
 	}
 
 	/**

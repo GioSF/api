@@ -17,9 +17,12 @@ Route::middleware('auth:api')->prefix('v1')->group(function() {
 	Route::get('/user', function(Request $request){
 		return $request->user();
 	});
-
-	Route::apiResource('cards', \App\Http\Controllers\CardController::class);
-	Route::apiResource('journals', \App\Http\Controllers\JournalsController::class);
-	Route::apiResource('news', \App\Http\Controllers\NewsController::class);
-	
 });
+
+Route::apiResource('cards', \App\Http\Controllers\CardController::class);
+Route::apiResource('contributions', \App\Http\Controllers\ContributionController::class);
+Route::apiResource('documents', \App\Http\Controllers\DocumentController::class);
+Route::apiResource('issues', \App\Http\Controllers\IssueController::class);
+Route::apiResource('journals', \App\Http\Controllers\JournalsController::class);
+Route::apiResource('news', \App\Http\Controllers\NewsController::class);
+
