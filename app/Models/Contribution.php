@@ -12,10 +12,29 @@ class Contribution extends Model
 	const ACCEPTED = 1;
 	const DENIED = 2;
 	const CHANGES_REQUIRED = 3;
+	const NOT_REVIEWED = 4;
 
 	protected $fillable = [
-		'contribution', 'feedback_admin', 'feedback_admin_status', 'user_id', 'contribuable_type', 'contribuable_id',
+		'content', 'feedback_admin', 'feedback_admin_status', 'user_id', 'contribuable_type', 'contribuable_id',
 	];
+
+	static public function build(?string $content = null, ?string $feedback_admin = null, ?string $feedback_admin_status = null, ?string $user_id = null): self
+	{
+		$contribution = self::where('content', $content)
+			->where('feedback_admin_status', $feedback_admin_status)
+			->first();
+
+		if (!$contribution)
+		{
+			$contribution = new Contribution;
+			$contribution->content = $content;
+			$contribution->feedback_admin = $feedback_admin;
+			$contribution->feedback_admin_status = $feedback_admin_status;
+			$contribution->user_id = $user_id;
+		}
+
+		return $contribution;
+	}
 
 	public function contribuable()
 	{
