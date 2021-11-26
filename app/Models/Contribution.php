@@ -7,7 +7,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class Contribution extends Model
 {
-	use HasFactory;
+	use HasFactory,
+		\App\Models\Concerns\BelongsToUser;
 
 	const ACCEPTED = 1;
 	const DENIED = 2;
@@ -41,6 +42,11 @@ class Contribution extends Model
 		return $this->morphTo();
 	}
 
+	public function contributions(): \Illuminate\Database\Eloquent\Relations\HasMany
+	{
+		return $this->hasMany(self::class);
+	}
+
 	public function user(): \Illuminate\Database\Eloquent\Relations\BelongsTo
 	{
 		return $this->belongsTo(User::class);
@@ -51,7 +57,8 @@ class Contribution extends Model
 		return [
 			self::ACCEPTED => 'Aprovado',
 			self::DENIED => 'Recusado',
-			self::CHANGES_REQUIRED => 'Requer alterações'
+			self::CHANGES_REQUIRED => 'Requer alterações',
+			self::NOT_REVIEWED => 'Aguarda Avaliação',
 		];
 	}
 }
