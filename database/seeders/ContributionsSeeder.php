@@ -18,26 +18,21 @@ class ContributionsSeeder extends Seeder
 	public function run()
 	{
 		$faker = FakerFactory::create('pt_BR');
-		$a = 0;
-		$status = 1;
-		$user = 1;
-		$documentId = 1;
+		$counter = 0;
 
 		do {
-			$document = Document::find((($documentId % 20) + 1));
+			$document = Document::find((($counter % 20) + 1));
 			$contribution = new Contribution;
-			$contribution->content = implode(' ', $faker->paragraphs(2));
+			$contribution->content = implode(' ', $faker->paragraphs(1));
 			$contribution->feedback_admin = implode(' ', $faker->paragraphs(1));
-			$contribution->feedback_admin_status = (($status % 5) + 1);
-			$contribution->user_id = (($user % 4) + 1);
+			$contribution->feedback_admin_status = rand(1, 5);
+			$contribution->user_id = (($counter % 10) + 1);
 			$contribution->contribuable_type = get_class($document);
 			$contribution->contribuable_id = $document->id;
 			$contribution->save();
-			$status++;
 			$document->contributions()->save($contribution);
-			$documentId++;
-			$a++;
-		} while ($a <= 50);
+			$counter++;
+		} while ($counter <= 50);
 
 		//
 	}
