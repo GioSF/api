@@ -56,17 +56,17 @@ class User extends Authenticatable
 		return $this->belongsToMany(Role::class);
 	}
 
-	public function isAdmin(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
+	public function isAdmin(): bool
 	{
 		return (bool) $this->roles()->where('slug', 'admin')->count();
 	}
 
-	public function isEditor(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
+	public function isEditor(): bool
 	{
 		return (bool) $this->roles()->where('slug', 'editor')->count();
 	}
 
-	public function isContribuidor(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
+	public function isContribuidor(): bool
 	{
 		return (bool) $this->roles()->where('slug', 'contribuidor')->count();
 	}
