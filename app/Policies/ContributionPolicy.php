@@ -18,7 +18,11 @@ class ContributionPolicy
 	 */
 	public function viewAny(User $user)
 	{
-		return $user->isAdmin() || $user->isEditor();
+		$contributorCanViewAny = $user->isContribuidor() &&
+							$contribution->belongsToUser($user);
+
+		return $user->isAdmin() || $user->isEditor() ||
+				$contributorCanViewAny;
 	}
 
 	/**
@@ -30,7 +34,11 @@ class ContributionPolicy
 	 */
 	public function view(User $user, Contribution $contribution)
 	{
-		return $contribution->belongsToUser($user) || $user->isAdmin() || $user->isEditor();
+		$contributorCanView = $user->isContribuidor() &&
+							$contribution->belongsToUser($user);
+
+		return $user->isAdmin() || $user->isEditor() ||
+				$contributorCanView;
 	}
 
 	/**
@@ -53,7 +61,12 @@ class ContributionPolicy
 	 */
 	public function update(User $user, Contribution $contribution)
 	{
-		return $user->isAdmin() || $user->isEditor();
+		$contributorCanUpdate = $user->isContribuidor() &&
+							$contribution->belongsToUser($user) &&
+							$contribution->feedback_admin_status == Contribution::CHANGES_REQUIRED;
+
+		return $user->isAdmin() || $user->isEditor() ||
+				$contributorCanUpdate;
 	}
 
 	/**
