@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\User;
 
 class Contribution extends Model
 {
@@ -14,12 +15,13 @@ class Contribution extends Model
 	const DENIED = 2;
 	const CHANGES_REQUIRED = 3;
 	const NOT_REVIEWED = 4;
+	const HIDDEN = 5;
 
 	protected $fillable = [
-		'content', 'feedback_admin', 'feedback_admin_status', 'user_id', 'contribuable_type', 'contribuable_id',
+		'content', 'feedback_admin', 'feedback_admin_status', 'user_id', 'contribuable_type', 'contribuable_id', 'parent_contribution_id',
 	];
 
-	static public function build(?string $content = null, ?string $feedback_admin = null, ?string $feedback_admin_status = null, ?string $user_id = null): self
+	static public function build(?string $content = null, ?string $feedback_admin = null, ?string $feedback_admin_status = null, ?User $user = null): self
 	{
 		$contribution = self::where('content', $content)
 			->where('feedback_admin_status', $feedback_admin_status)
@@ -31,7 +33,7 @@ class Contribution extends Model
 			$contribution->content = $content;
 			$contribution->feedback_admin = $feedback_admin;
 			$contribution->feedback_admin_status = $feedback_admin_status;
-			$contribution->user_id = $user_id;
+			$contribution->user_id = $user->id;
 		}
 
 		return $contribution;
@@ -59,6 +61,7 @@ class Contribution extends Model
 			self::DENIED => 'Recusado',
 			self::CHANGES_REQUIRED => 'Requer alterações',
 			self::NOT_REVIEWED => 'Aguarda Avaliação',
+			self::HIDDEN => 'Ocultado',
 		];
 	}
 }

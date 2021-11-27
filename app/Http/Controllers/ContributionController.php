@@ -16,7 +16,10 @@ class ContributionController extends Controller
 	 */
 	public function index()
 	{
-		return ContributionsResource::collection(Contribution::all());
+		$contributionsBlock = new \App\Blocks\Contribution\IndexContributionBlock;
+		$contributions = $contributionsBlock->execute();
+
+		return ContributionsResource::collection($contributions);
 	}
 
 	/**
@@ -73,7 +76,8 @@ class ContributionController extends Controller
 	 */
 	public function update(StoreUpdateContributionRequest $request, Contribution $contribution)
 	{
-		$contribution->update($request->all());
+		$contributionBlock = new \App\Blocks\Contribution\UpdateContributionBlock($contribution);
+		$contribution = $contributionBlock->execute();
 
 		return new ContributionsResource($contribution);
 	}

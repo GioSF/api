@@ -18,7 +18,7 @@ class ContributionsResource extends JsonResource
 			'id' => (string) $this->id,
 			'type' => 'Contributions',
 			'attributes' => [
-				'contribution' => $this->contribution,
+				'content' => $this->content,
 				'feedback_admin' => $this->feedback_admin,
 				'user_id' => $this->user_id,
 				'contribuable_type' => $this->contribuable_type,
