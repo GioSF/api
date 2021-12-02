@@ -51,8 +51,21 @@ class ContributionController extends Controller
 	 * @param  int  $id
 	 * @return \Illuminate\Http\Response
 	 */
-	public function show(Contributions $contribution)
+	public function show(Contribution $contribution)
 	{
+		return new ContributionsResource($contribution);
+	}
+
+	/**
+	 * Display a contribution's history of modifications.
+	 *
+	 * @param  int  $id
+	 * @return \Illuminate\Http\Response
+	 */
+	public function showContributionHistory(Contribution $contribution)
+	{
+		$contributionHistoryBlock = new \App\Blocks\Contribution\ShowContributionHistoryBlock($contribution);
+		$contribution = $contributionHistoryBlock->execute();
 		return new ContributionsResource($contribution);
 	}
 
