@@ -15,8 +15,9 @@ class CreateContributionsTable extends Migration
 	{
 		Schema::create('contributions', function (Blueprint $table) {
 			$table->id();
-			$table->text('contribution');
+			$table->text('content');
 			$table->text('feedback_admin');
+			$table->unsignedBigInteger('parent_contribution_id')->references('id')->on('contributions')->nullable();
 			$table->boolean('feedback_admin_status');
 			$table->unsignedBigInteger('user_id');
 			$table->foreign('user_id')->references('id')->on('users');

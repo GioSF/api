@@ -56,4 +56,19 @@ class User extends Authenticatable
 		return $this->belongsToMany(Role::class);
 	}
 
+	public function isAdmin(): bool
+	{
+		return (bool) $this->roles()->where('slug', 'admin')->count();
+	}
+
+	public function isEditor(): bool
+	{
+		return (bool) $this->roles()->where('slug', 'editor')->count();
+	}
+
+	public function isContribuidor(): bool
+	{
+		return (bool) $this->roles()->where('slug', 'contribuidor')->count();
+	}
+
 }

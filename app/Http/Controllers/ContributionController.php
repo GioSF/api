@@ -16,7 +16,10 @@ class ContributionController extends Controller
 	 */
 	public function index()
 	{
-		return ContributionsResource::collection(Contribution::all());
+		$contributionsBlock = new \App\Blocks\Contribution\IndexContributionBlock;
+		$contributions = $contributionsBlock->execute();
+
+		return ContributionsResource::collection($contributions);
 	}
 
 	/**
@@ -48,8 +51,21 @@ class ContributionController extends Controller
 	 * @param  int  $id
 	 * @return \Illuminate\Http\Response
 	 */
-	public function show(Contributions $contribution)
+	public function show(Contribution $contribution)
 	{
+		return new ContributionsResource($contribution);
+	}
+
+	/**
+	 * Display a contribution's history of modifications.
+	 *
+	 * @param  int  $id
+	 * @return \Illuminate\Http\Response
+	 */
+	public function showContributionHistory(Contribution $contribution)
+	{
+		$contributionHistoryBlock = new \App\Blocks\Contribution\ShowContributionHistoryBlock($contribution);
+		$contribution = $contributionHistoryBlock->execute();
 		return new ContributionsResource($contribution);
 	}
 
@@ -73,7 +89,8 @@ class ContributionController extends Controller
 	 */
 	public function update(StoreUpdateContributionRequest $request, Contribution $contribution)
 	{
-		$contribution->update($request->all());
+		$contributionBlock = new \App\Blocks\Contribution\UpdateContributionBlock($contribution);
+		$contribution = $contributionBlock->execute();
 
 		return new ContributionsResource($contribution);
 	}

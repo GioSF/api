@@ -31,14 +31,14 @@ class CreateFileResourcesRelationship extends Seeder
 
 		$userFiles = Storage::disk('user_files')->allFiles();
 		$users = User::all();
-		$fileNemeber = 1;
+		$fileNumber = 1;
 
 		foreach($users as $user)
 		{
-			$file = File::build($user->name, 'Image from ' . $user->name, $userFiles[($fileNemeber % 9) + 1]);
+			$file = File::build($user->name, 'Image from ' . $user->name, $userFiles[($fileNumber % 9) + 1]);
 			$file->save();
 			$user->files()->save($file);
-			$fileNemeber++;
+			$fileNumber++;
 		}
 
 	}

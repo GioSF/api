@@ -4,22 +4,49 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\User;
 
 class Contribution extends Model
 {
-	use HasFactory;
+	use HasFactory,
+		\App\Models\Concerns\BelongsToUser;
 
 	const ACCEPTED = 1;
 	const DENIED = 2;
 	const CHANGES_REQUIRED = 3;
+	const NOT_REVIEWED = 4;
+	const HIDDEN = 5;
 
 	protected $fillable = [
-		'contribution', 'feedback_admin', 'feedback_admin_status', 'user_id', 'contribuable_type', 'contribuable_id',
+		'content', 'feedback_admin', 'feedback_admin_status', 'user_id', 'contribuable_type', 'contribuable_id', 'parent_contribution_id',
 	];
+
+	static public function build(?string $content = null, ?string $feedback_admin = null, ?string $feedback_admin_status = null, ?User $user = null): self
+	{
+		$contribution = self::where('content', $content)
+			->where('feedback_admin_status', $feedback_admin_status)
+			->first();
+
+		if (!$contribution)
+		{
+			$contribution = new Contribution;
+			$contribution->content = $content;
+			$contribution->feedback_admin = $feedback_admin;
+			$contribution->feedback_admin_status = $feedback_admin_status;
+			$contribution->user_id = $user->id;
+		}
+
+		return $contribution;
+	}
 
 	public function contribuable()
 	{
 		return $this->morphTo();
+	}
+
+	public function contributions(): \Illuminate\Database\Eloquent\Relations\HasMany
+	{
+		return $this->hasMany(self::class);
 	}
 
 	public function user(): \Illuminate\Database\Eloquent\Relations\BelongsTo
@@ -32,7 +59,9 @@ class Contribution extends Model
 		return [
 			self::ACCEPTED => 'Aprovado',
 			self::DENIED => 'Recusado',
-			self::CHANGES_REQUIRED => 'Requer alterações'
+			self::CHANGES_REQUIRED => 'Requer alterações',
+			self::NOT_REVIEWED => 'Aguarda Avaliação',
+			self::HIDDEN => 'Ocultado',
 		];
 	}
 }
