@@ -13,6 +13,9 @@ class News extends Model
 		BelongsToOrganization,
 		HasFiles;
 
+	const HIDDEN = 1;
+	const PUBLISHED = 2;
+
 	protected $fillable = [
 		'title',
 		'subtitle',
@@ -24,5 +27,14 @@ class News extends Model
 		'created_at' => 'datetime',
 		'updated_at' => 'datetime'
 	];
+
+
+	public function getNewsStatusMap()
+	{
+		return [
+			self::HIDDEN => 'Oculto',
+			self::PUBLISHED => 'Publicado',
+		];
+	}
 
 }

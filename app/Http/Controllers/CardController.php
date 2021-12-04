@@ -40,7 +40,7 @@ class CardController extends Controller
 		$card = $card->create($request->all());
 
 		return new CardResource($card);
-		}
+	}
 
 	/**
 	 * Display the specified resource.
