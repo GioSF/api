@@ -3,8 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Models\Journal;
+use App\Models\Issue;
+use App\Models\Page;
 use Illuminate\Http\Request;
 use App\Http\Resources\JournalsResource;
+use Illuminate\Support\Facades\Log;
 
 class JournalsController extends Controller
 {
@@ -16,35 +19,41 @@ class JournalsController extends Controller
 	public function index()
 	{
 		$journals = Journal::all();
-		$noIssues = [];
-		$noPages = [];
-		$startDate = [];
-		$endDate = [];
-		$dataTermino = [];
+		$id = null;
+		$noIssues = null;
+		$noPages = 0;
+		$startDate = null;
+		$endDate = null;
+		$data = [];
+
 		foreach ($journals as $journal)
 		{
+			$noPages = 0;
 			$issues = Issue::where('journal_id', $journal->id);
-			$noIssues[$journal->id] = $issues->count();
-
-			$startDate[$journal->id] = $issues->first() ? $issues->orderBy('start_date', 'asc')->first()->start_date->format('d/m/Y') : '-';
-			$issues = Issue::where('journal_id', $journal->id);
-			$endDate[$journal->id] = $issues->first() ? $issues->orderBy('end_date', 'desc')->first()->end_date->format('d/m/Y') : '-';
-			$noPages[$journal->id] = null;
+			$id = $journal->id;
+			$title = $journal->title;
+			$noIssues = $issues->count();
+			$startDate = $issues->first() ? Issue::where('journal_id', $journal->id)->orderBy('start_date', 'asc')->first()->start_date->format('d/m/Y') : '-';
+			$endDate = $issues->first() ? Issue::where('journal_id', $journal->id)->orderBy('end_date', 'desc')->first()->end_date->format('d/m/Y') : '-';
 			$issues = Issue::where('journal_id', $journal->id)->get();
 
 			foreach ($issues as $issue)
 			{
-				$noPages[$journal->id] += $issue->number_pages;
+				$noPages += $issue->number_pages;
 			}
-		}
 
-		return [
-				'journals' => $journals,
+			$data[] = [
+				'id' => $id,
+				'titles' => $title,
 				'noIssues' => $noIssues,
 				'noPages' => $noPages,
 				'startDate' => $startDate,
 				'endDate' => $endDate,
 			];
+
+		}
+
+		return json_encode($data);
 		
 		// return JournalsResource::collection(Journal::all());
 	}
@@ -85,6 +94,7 @@ class JournalsController extends Controller
 
 	public function getJournalYears(Journal $journal)
 	{
+		Log::debug($journal);
 		$years = [];
 
 		foreach ($journal->issues()->get() as $issue)
@@ -97,6 +107,12 @@ class JournalsController extends Controller
 		}
 
 		sort($year);
+
+		// const rows: GridRowsProp = [
+		// 	{ id: 1, col1: 'Hello', col2: 'World' },
+		// 	{ id: 2, col1: 'DataGridPro', col2: 'is Awesome' },
+		// 	{ id: 3, col1: 'MUI', col2: 'is Amazing' },
+		//   ];
 
 		return json_encode([
 			'journal' => $journal,
