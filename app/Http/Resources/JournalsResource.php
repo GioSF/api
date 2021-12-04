@@ -25,7 +25,6 @@ class JournalsResource extends JsonResource
 				'idiom' => $this->idiom,
 				'creation_date' => $this->creation_date,
 				'end_date' => $this->end_date,
-				'issues' => $this->issues,
 				'created_at' => $this->created_at,
 				'updated_at' => $this->updated_at
 			]
