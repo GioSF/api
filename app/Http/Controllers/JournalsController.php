@@ -8,6 +8,8 @@ use App\Models\Page;
 use Illuminate\Http\Request;
 use App\Http\Resources\JournalsResource;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Storage;
+use GuzzleHttp\Client;
 
 class JournalsController extends Controller
 {
@@ -234,13 +236,30 @@ class JournalsController extends Controller
 
 	public function getPageView(Page $page)
 	{
+
+		$projectId = 'web-hemeroteca-13fc0';
+		$pathToKey = 'config/web-hemeroteca-13fc0-eea7d0ec6f22.json';
+		$baseUri = 'https://firebasestorage.googleapis.com/v0/b/web-hemeroteca-13fc0.appspot.com/o/';
+
+		$client = new Client([
+				'base_uri' => $baseUri,
+				'timeout'  => 2.0,
+			 ]);
+
 		$issue = $page->issue;
+		$filePathSuffix = str_replace('/', '%2F', $page->filepath);
+
+		$response = $client->request('GET', $filePathSuffix);
+		$downloadToken = json_decode($response->getBody()->getContents())->downloadTokens;
+
+		$journaTitle = $issue->journal->title;
 		$imgHeader = $issue->start_date->format('d-m-Y') . ' - ' . ' Página ' . $page->page_number;
-		$pagePath = asset('01/' . $page->filepath);
+		// $pagePath = asset('01/' . $page->filepath);
 
 		return json_encode([
-			'pagePath' => 'https://firebasestorage.googleapis.com/v0/b/web-hemeroteca-13fc0.appspot.com/o/AC%2F1892%2F09%2F18%2F01.jpg?alt=media&token=cd1914b4-627e-415c-a6ec-2f8797f94408',
+			'pagePath' => $baseUri . $filePathSuffix . '?alt=media&token=' . $downloadToken,
 			'img_header' => $imgHeader,
+			'journaTitle' => $journaTitle,
 			'start_date' => $issue->start_date,
 			'end_date' => $issue->end_date,
 			'number_pages' => $issue->number_pages,
