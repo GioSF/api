@@ -27,3 +27,9 @@ Route::apiResource('journals', \App\Http\Controllers\JournalsController::class);
 Route::apiResource('news', \App\Http\Controllers\NewsController::class);
 Route::apiResource('pages', \App\Http\Controllers\PageController::class);
 
+Route::get('journals/journal-years/{journal}', [\App\Http\Controllers\JournalsController::class, 'getJournalYears']);
+Route::get('journals/journal-months/{journal}/{year}', [\App\Http\Controllers\JournalsController::class, 'getYearMonthsJournal']);
+Route::get('journals/journal-issues/{journal}/{year}/{month}', [\App\Http\Controllers\JournalsController::class, 'getMonthIssuesJournals']);
+Route::get('journals/journal-pages/{journal}/{year}/{month}/{issue}', [\App\Http\Controllers\JournalsController::class, 'getJournalIssue']);
+Route::get('journals/journal-page/{page}', [\App\Http\Controllers\JournalsController::class, 'getPageView']);
+
