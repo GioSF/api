@@ -222,8 +222,6 @@ class JournalsController extends Controller
 
 		$date = \Carbon\Carbon::createFromDate($year, $month, $day)->format('Y-m-d');
 		$issue = $journal->issues()->where('start_date', '=', $date)->first();
-		Log::debug($issue);
-
 
 		$response = [
 			'pages' => $issue->pages,
@@ -236,28 +234,40 @@ class JournalsController extends Controller
 
 	public function getPageView(Page $page)
 	{
-
 		$projectId = 'web-hemeroteca-13fc0';
 		$pathToKey = 'config/web-hemeroteca-13fc0-eea7d0ec6f22.json';
 		$baseUri = 'https://firebasestorage.googleapis.com/v0/b/web-hemeroteca-13fc0.appspot.com/o/';
-
 		$client = new Client([
 				'base_uri' => $baseUri,
 				'timeout'  => 2.0,
 			 ]);
 
 		$issue = $page->issue;
-		$filePathSuffix = str_replace('/', '%2F', $page->filepath);
-
-		$response = $client->request('GET', $filePathSuffix);
-		$downloadToken = json_decode($response->getBody()->getContents())->downloadTokens;
-
+		$filePaths = [];
 		$journaTitle = $issue->journal->title;
 		$imgHeader = $issue->start_date->format('d-m-Y') . ' - ' . ' Página ' . $page->page_number;
-		// $pagePath = asset('01/' . $page->filepath);
+		$startIndex = 0;
+		$continueCounter = true;
+
+		foreach ($issue->pages as $listedPage)
+		{
+			if (($listedPage->id != $page->id) && $continueCounter)
+			{
+				$startIndex++;
+			}
+			else
+			{
+				$continueCounter = false;
+			}
+			$filePathSuffix = str_replace('/', '%2F', $listedPage->filepath);
+			$response = $client->request('GET', $filePathSuffix);
+			$downloadToken = json_decode($response->getBody()->getContents())->downloadTokens;
+			$filePaths[] = $baseUri . $filePathSuffix . '?alt=media&token=' . $downloadToken;
+		}
 
 		return json_encode([
-			'pagePath' => $baseUri . $filePathSuffix . '?alt=media&token=' . $downloadToken,
+			'filePaths' => $filePaths,
+			'startIndex' => $startIndex,
 			'img_header' => $imgHeader,
 			'journaTitle' => $journaTitle,
 			'start_date' => $issue->start_date,
