@@ -106,6 +106,8 @@ class JournalsController extends Controller
 				array_push($years, $year);
 			}
 		}
+		$startDate = $journal->issues->first() ? Issue::where('journal_id', $journal->id)->orderBy('start_date', 'asc')->first()->start_date->format('d/m/Y') : '-';
+		$endDate = $journal->issues->first() ? Issue::where('journal_id', $journal->id)->orderBy('end_date', 'desc')->first()->end_date->format('d/m/Y') : '-';
 
 		// const rows: GridRowsProp = [
 		// 	{ id: 1, col1: 'Hello', col2: 'World' },
@@ -116,6 +118,8 @@ class JournalsController extends Controller
 		$data = [
 			'journal' => $journal,
 			'years' => $years,
+			'endDate' => $endDate,
+			'startDate' => $startDate,
 			'months' => [],
 		];
 
@@ -222,11 +226,19 @@ class JournalsController extends Controller
 
 		$date = \Carbon\Carbon::createFromDate($year, $month, $day)->format('Y-m-d');
 		$issue = $journal->issues()->where('start_date', '=', $date)->first();
+		$journalTitle = $journal->title;
+		$localization = $journal->localization;
+		$citationDate = $issue->start_date->format('d M. Y');
+		$now = \Carbon\Carbon::now()->format('d/m/Y');
 
 		$response = [
 			'pages' => $issue->pages,
 			'issue' => $issue->id,
-			'journal' => $journal->id
+			'journal' => $journal->id,
+			'journalTitle' => $journalTitle,
+			'localization' => $localization,
+			'citationDate' => $citationDate,
+			'now' => $now,
 		];
 
 		return json_encode($response);
