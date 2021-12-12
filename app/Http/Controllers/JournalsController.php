@@ -8,6 +8,8 @@ use App\Models\Page;
 use Illuminate\Http\Request;
 use App\Http\Resources\JournalsResource;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Storage;
+use GuzzleHttp\Client;
 
 class JournalsController extends Controller
 {
@@ -94,7 +96,6 @@ class JournalsController extends Controller
 
 	public function getJournalYears(Journal $journal)
 	{
-		Log::debug($journal);
 		$years = [];
 
 		foreach ($journal->issues()->get() as $issue)
@@ -105,8 +106,8 @@ class JournalsController extends Controller
 				array_push($years, $year);
 			}
 		}
-
-		sort($year);
+		$startDate = $journal->issues->first() ? Issue::where('journal_id', $journal->id)->orderBy('start_date', 'asc')->first()->start_date->format('d/m/Y') : '-';
+		$endDate = $journal->issues->first() ? Issue::where('journal_id', $journal->id)->orderBy('end_date', 'desc')->first()->end_date->format('d/m/Y') : '-';
 
 		// const rows: GridRowsProp = [
 		// 	{ id: 1, col1: 'Hello', col2: 'World' },
@@ -114,20 +115,24 @@ class JournalsController extends Controller
 		// 	{ id: 3, col1: 'MUI', col2: 'is Amazing' },
 		//   ];
 
-		return json_encode([
+		$data = [
 			'journal' => $journal,
 			'years' => $years,
+			'endDate' => $endDate,
+			'startDate' => $startDate,
 			'months' => [],
-		]);
+		];
+
+		return json_encode($data);
 	}
 
-	public function getYearMonthsJournals(Journal $journal, string $year)
+	public function getYearMonthsJournal(Journal $journal, string $year)
 	{
 		//Obter lista de monthes disponíveis para um year de um periódico
 
 		$date = \Carbon\Carbon::createFromDate($year,null,null);
 		$startYear = $date->copy()->startOfYear();
-		$endYear = $data->copy()->endOfYear();
+		$endYear = $date->copy()->endOfYear();
 		$months = [];
 
 		$yearIssues = $journal->issues()->where('start_date', '>=', $startYear)->where('end_date', '<=', $endYear)->get();
@@ -153,14 +158,17 @@ class JournalsController extends Controller
 
 		sort($months);
 
-		return json_encode([
+		$data = [
 			'months' => $months,
 			'year' => $year,
-			'journal' => $journal->id
-		]);
+			'journal' => $journal
+		];
+
+		return json_encode($data);
+
 	}
 
-	public function getMonthJournals(Journal $journal, string $year, string $month)
+	public function getMonthIssuesJournals(Journal $journal, string $year, string $month)
 	{
 		//Obter lista de monthes disponíveis para um year de um periódico
 
@@ -217,38 +225,63 @@ class JournalsController extends Controller
 		//Obter arquivos da edição
 
 		$date = \Carbon\Carbon::createFromDate($year, $month, $day)->format('Y-m-d');
-		$issue = $journal->issues()->where('start_day', '=', $date)->first();
-		$pages = [];
+		$issue = $journal->issues()->where('start_date', '=', $date)->first();
+		$journalTitle = $journal->title;
+		$localization = $journal->localization;
+		$citationDate = $issue->start_date->format('d M. Y');
+		$now = \Carbon\Carbon::now()->format('d/m/Y');
 
-		foreach ($issue->pages as $page)
-		{
-			$page = $page->numero;
-			if (!in_array($page, $pages))
-			{
-				array_push($pages, $page);
-			}
-		}
-		sort($pages);
-
-		return json_encode([
-			'pages' => $pages,
+		$response = [
+			'pages' => $issue->pages,
 			'issue' => $issue->id,
-			'journal' => $journal->id
-		]);
+			'journal' => $journal->id,
+			'journalTitle' => $journalTitle,
+			'localization' => $localization,
+			'citationDate' => $citationDate,
+			'now' => $now,
+		];
+
+		return json_encode($response);
 	}
 
-	public function obterjournalPage(Issue $issue, string $page)
+	public function getPageView(Page $page)
 	{
-		$pages = [];
-		$page = Page::where('issue_id', $issue->id)->where('numero', $page)->first();
-		$journal = $issue->journal()->first();
+		$projectId = 'web-hemeroteca-13fc0';
+		$pathToKey = 'config/web-hemeroteca-13fc0-eea7d0ec6f22.json';
+		$baseUri = 'https://firebasestorage.googleapis.com/v0/b/web-hemeroteca-13fc0.appspot.com/o/';
+		$client = new Client([
+				'base_uri' => $baseUri,
+				'timeout'  => 2.0,
+			 ]);
+
+		$issue = $page->issue;
+		$filePaths = [];
+		$journaTitle = $issue->journal->title;
 		$imgHeader = $issue->start_date->format('d-m-Y') . ' - ' . ' Página ' . $page->page_number;
-		$pagePath = asset('acervo/biblioweb/' . $page->filepath);
+		$startIndex = 0;
+		$continueCounter = true;
+
+		foreach ($issue->pages as $listedPage)
+		{
+			if (($listedPage->id != $page->id) && $continueCounter)
+			{
+				$startIndex++;
+			}
+			else
+			{
+				$continueCounter = false;
+			}
+			$filePathSuffix = str_replace('/', '%2F', $listedPage->filepath);
+			$response = $client->request('GET', $filePathSuffix);
+			$downloadToken = json_decode($response->getBody()->getContents())->downloadTokens;
+			$filePaths[] = $baseUri . $filePathSuffix . '?alt=media&token=' . $downloadToken;
+		}
 
 		return json_encode([
-			// 'pagePath' => 'https://firebasestorage.googleapis.com/v0/b/bibioweb-storage.appspot.com/o/31%2F02.jpg?alt=meday&token=f2f819eb-9d22-416d-8025-11fff22e2da5',
-			'pagePath' => $pagePath,
+			'filePaths' => $filePaths,
+			'startIndex' => $startIndex,
 			'img_header' => $imgHeader,
+			'journaTitle' => $journaTitle,
 			'start_date' => $issue->start_date,
 			'end_date' => $issue->end_date,
 			'number_pages' => $issue->number_pages,
