@@ -15,6 +15,7 @@ class CreateSystemFunctionsTable extends Migration
 	{
 		Schema::create('system_functions', function (Blueprint $table) {
 			$table->id();
+			$table->text('slug');
 			$table->text('name');
 			$table->text('description');
 			$table->integer('parent_system_function')->nullable();

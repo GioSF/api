@@ -19,19 +19,64 @@ class CreateSystemFunctionsWithOrganizationRelationship extends Seeder
 		[
 			[
 				'name' => 'Hemeroteca',
+				'slug' => 'journals',
 				'description' => 'Sistema de Gerenciamento de Hemeroteca',
 				'parent_system_function' => null,
 				'organization_id' => 1,
 			],
 			[
 				'name' => 'Hemeroteca',
+				'slug' => 'journals',
 				'description' => 'Sistema de Gerenciamento de Hemeroteca',
 				'parent_system_function' => null,
 				'organization_id' => 2,
 			],
 			[
 				'name' => 'Arquivo Historico',
-				'description' => 'Sistema de Gerenciamento Arquivo Historico',
+				'slug' => 'collection',
+				'description' => 'Sistema de Gerenciamento de Arquivo Historico',
+				'parent_system_function' => null,
+				'organization_id' => 2,
+			],
+			[
+				'name' => 'Fichas Catalográficas',
+				'slug' => 'cards',
+				'description' => 'Sistema de Gerenciamento de Fichas Catalográficas',
+				'parent_system_function' => null,
+				'organization_id' => 2,
+			],
+			[
+				'name' => 'Fichas Catalográficas',
+				'slug' => 'cards',
+				'description' => 'Sistema de Gerenciamento de Fichas Catalográficas',
+				'parent_system_function' => null,
+				'organization_id' => 1,
+			],
+			[
+				'name' => 'Transcrições',
+				'slug' => 'transcriptions',
+				'description' => 'Sistema de Gerenciamento de Transcrições',
+				'parent_system_function' => null,
+				'organization_id' => 1,
+			],
+			[
+				'name' => 'Transcrições',
+				'slug' => 'transcriptions',
+				'description' => 'Sistema de Gerenciamento de Transcrições',
+				'parent_system_function' => null,
+				'organization_id' => 2,
+			],
+			[
+				'name' => 'Notícias',
+				'slug' => 'news',
+				'description' => 'Sistema de Gerenciamento de Notícias',
+				'parent_system_function' => null,
+				'organization_id' => 1,
+			],
+			[
+				'name' => 'Notícias',
+				'slug' => 'news',
+				'description' => 'Sistema de Gerenciamento de Notícias',
 				'parent_system_function' => null,
 				'organization_id' => 2,
 			],
@@ -39,12 +84,10 @@ class CreateSystemFunctionsWithOrganizationRelationship extends Seeder
 
 		foreach($systemFunctionData as $systemData)
 		{
-			$systemFunction = SystemFunction::build($systemData['name'], $systemData['description'], $systemData['parent_system_function']);
+			$systemFunction = SystemFunction::build($systemData['name'], $systemData['slug'], $systemData['description'], $systemData['parent_system_function']);
 			$systemFunction->save();
 			$organization = Organization::find($systemData['organization_id']);
 			$organization->systemFunctions()->save($systemFunction);
 		}
-
-		//
 	}
 }
