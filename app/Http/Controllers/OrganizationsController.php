@@ -5,19 +5,26 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreUpdateOrganizationRequest;
 use App\Http\Resources\OrganizationsResource;
 use App\Models\Organization;
-
 use Illuminate\Http\Request;
 
-class OrganizationController extends Controller
+class OrganizationsController extends Controller
 {
 	/**
 	 * Display a listing of the resource.
 	 *
 	 * @return \Illuminate\Http\Response
 	 */
-	public function index()
+	public function index(Request $request)
 	{
 		return OrganizationsResource::collection(Organization::all());
+	}
+
+	public function getOrganization(Request $request)
+	{
+		$organizationSlug = $request->organization;
+		$organization = Organization::slugged($organizationSlug)->first();
+
+		return $organization;
 	}
 
 	/**
