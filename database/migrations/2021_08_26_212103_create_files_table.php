@@ -19,6 +19,7 @@ class CreateFilesTable extends Migration
 			$table->text('title');
 			$table->text('description');
 			$table->text('filepath')->nullable();
+			$table->unsignedBigInteger('organization_id');
 			$table->foreign('organization_id')->references('id')->on('organizations');
 			$table->text('hash_name');
 			$table->timestamps();
