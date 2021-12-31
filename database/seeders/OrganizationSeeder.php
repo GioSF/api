@@ -19,7 +19,7 @@ class OrganizationSeeder extends Seeder
 		$organizationsData = [
 			[
 				'slug' => 'setor-memoria-bmmm-hemeroteca',
-				'main_name' => 'Setor de Memória da Biblioteca Municipal Murilo Mendes',
+				'name' => 'Setor de Memória da Biblioteca Municipal Murilo Mendes',
 				'description' => '<p>A Biblioteca Municipal Murilo Mendes da cidade de Juiz de Fora é uma das mais antigas bibliotecas do estado de Minas Gerais. Inaugurada em 1897, completará 122 anos em dezembro de 2019 e ao longo destes anos constituiu um importante acervo de livros e periódicos. No Setor de Memória está o acervo histórico desta biblioteca centenária que tem contribuído muito para o enriquecimento da pesquisa sobre Juiz de Fora, a região da Zona da Mata e Minas Gerais.</p>
 				<p>O acervo de Periódicos é constituído pelos mais importantes jornais que circularam em Juiz de Fora nos séculos XIX e XX como O Pharol (1876-1926), Jornal do Commercio (1896-1934), Correio de Minas (1895-1927), Diário Mercantil (1912-1983), Diário da Tarde (1947-1983) e o Tribuna de Minas (1981- aos dias de hoje). Entre as revistas juizforanas destacamos O Lince, Marília, A Evolução, Razões e a Revista do Instituto Histórico e Geográfico de Juiz de Fora. Uma parte do acervo de periódicos (550.000 imagens) está digitalizada.</p>
 				<p>A Coleção Juizforana do Setor preserva a memória bibliográfica dos escritores da cidade, sendo constituída por livros de variados temas como história de Juiz de Fora, patrimônio histórico, literatura entre outros.</p>
@@ -35,7 +35,7 @@ class OrganizationSeeder extends Seeder
 			],
 			[
 				'slug' => 'pjf-arquivo-hisorico',
-				'main_name' => 'Arquivo Histórico de Juiz de Fora',
+				'name' => 'Arquivo Histórico de Juiz de Fora',
 				'description' => 'O Arquivo Histórico de Juiz de Fora (AHJF) é uma instituição que tem por objetivo o recolhimento, organização, preservação e divulgação de acervos documentais de relevância para a história do município e região, sejam estes de caráter público ou privado. É política do AHJF promover a conscientização e a preservação do patrimônio documental da microrregião de Juiz de Fora, oferecendo assessoria ou seus serviços gratuitamente. ',
 				'address' => 'Av. Brasil, 560 - Vitorino Braga, Juiz de Fora - MG, 36052-560',
 				'phone' => '+553232143450',
@@ -49,6 +49,7 @@ class OrganizationSeeder extends Seeder
 		{
 			$organization = new Organization();
 			$organization->slug = $data['slug'];
+			$organization->name = $data['name'];
 			$organization->description = $data['description'];
 			$organization->google_maps_link = $data['google_maps_link'];
 			$organization->save();

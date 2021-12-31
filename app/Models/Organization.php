@@ -12,7 +12,7 @@ class Organization extends Model
 	use HasFactory,
 		HasFiles;
 
-	protected $fillable = ['slug', 'main_name', 'description', 'google_maps_link'];
+	protected $fillable = ['slug', 'name', 'description', 'google_maps_link'];
 
 	//Eloquent relations
 
