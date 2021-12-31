@@ -5,7 +5,11 @@ namespace Database\Seeders;
 
 use App\Models\File;
 use App\Models\User;
+use App\Models\Organization;
 use Illuminate\Database\Seeder;
+use Faker\Generator as Faker;
+use Faker\Factory as FakerFactory;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Log;
 
@@ -31,16 +35,22 @@ class CreateFileResourcesRelationship extends Seeder
 
 		$userFiles = Storage::disk('user_files')->allFiles();
 		$users = User::all();
-		$fileNumber = 1;
+		$organizations = Organization::all();
 
-		foreach($users as $user)
+		foreach ($organizations as $organization)
 		{
-			$file = File::build($user->name, 'Image from ' . $user->name, $userFiles[($fileNumber % 9) + 1]);
-			$file->save();
-			$user->files()->save($file);
-			$fileNumber++;
+			foreach($users as $user)
+			{
+				$slug = strtolower($user->name);
+				$slug = preg_replace('/[^A-Za-z0-9 \-]/', '', $slug);
+				$slug = str_replace(' ', '_', $slug);
+				$faker = FakerFactory::create('pt_BR');
+				$filePath = $faker->filePath();
+				$file = File::build($slug, $user->name, 'Image from ' . $user->name, $filePath, Hash::make($filePath), $organization);
+				$file->save();
+				$user->files()->save($file);
+			}
 		}
-
 	}
-
 }
+
