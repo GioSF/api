@@ -19,7 +19,7 @@ Route::middleware('auth:api')->prefix('v1')->group(function() {
 	});
 });
 
-Route::get('/organization/{organization}', [\App\Http\Controllers\OrganizationsController::class, 'getOrganization']);
+Route::get('organization/{organization}', [\App\Http\Controllers\OrganizationsController::class, 'getOrganization']);
 
 Route::apiResource('cards', \App\Http\Controllers\CardController::class);
 Route::apiResource('contributions', \App\Http\Controllers\ContributionController::class);

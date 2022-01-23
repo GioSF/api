@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Models\Concerns\HasFiles;
+use App\Models\Concerns\HasSlug;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
@@ -10,7 +11,8 @@ use Illuminate\Database\Eloquent\Model;
 class Organization extends Model
 {
 	use HasFactory,
-		HasFiles;
+		HasFiles,
+		HasSlug;
 
 	protected $fillable = ['slug', 'name', 'description', 'google_maps_link'];
 
@@ -19,13 +21,6 @@ class Organization extends Model
 	public function profile()
 	{
 		return $this->hasOne(\App\Models\ResourceProfile::class);
-	}
-
-	// Scopes
-
-	public function scopeSlugged(Builder $query, $slug): Builder
-	{
-		return $query->where('slug', $slug);
 	}
 
 	//Eloquent relations
@@ -43,6 +38,11 @@ class Organization extends Model
 	public function news(): \Illuminate\Database\Eloquent\Relations\HasMany
 	{
 		return $this->hasMany(\App\Models\News::class);
+	}
+
+	public function systemPages(): \Illuminate\Database\Eloquent\Relations\HasMany
+	{
+		return $this->hasMany(\App\Models\SystemPage::class);
 	}
 
 	public function users(): \Illuminate\Database\Eloquent\Relations\BelongsToMany

@@ -21,10 +21,22 @@ class OrganizationsController extends Controller
 
 	public function getOrganization(Request $request)
 	{
+		$organizationData = [];
 		$organizationSlug = $request->organization;
 		$organization = Organization::slugged($organizationSlug)->first();
+		$organizationData['organization_object'] = $organization;
+		$organizationData['organization_system_functions'] = $organization->systemFunctions()->pluck('slug');
 
-		return $organization;
+		return $organizationData;
+	}
+
+	public function getOrganizationSystemFunctions(Request $request)
+	{
+		$organizationSlug = $request->organization;
+		$organization = Organization::slugged($organizationSlug)->first();
+		$sysFunctionsArray = $organization->systemFunctions()->pluck('slug');
+
+		return json_encode($sysFunctionsArray);
 	}
 
 	/**
