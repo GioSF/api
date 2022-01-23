@@ -20,6 +20,7 @@ class OrganizationsResource extends JsonResource
             'type' => 'Organizations',
             'attributes' => [
                 'slug' => $this->slug,
+                'name' => $this->name,
                 'description' => $this->description,
                 'google_maps_link' => $this->google_maps_link,
                 'created_at' => $this->created_at,

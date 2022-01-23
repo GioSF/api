@@ -18,7 +18,7 @@ class JournalsController extends Controller
 	 *
 	 * @return \Illuminate\Http\Response
 	 */
-	public function index()
+	public function index(Request $request)
 	{
 		$journals = Journal::all();
 		$id = null;
@@ -108,12 +108,6 @@ class JournalsController extends Controller
 		}
 		$startDate = $journal->issues->first() ? Issue::where('journal_id', $journal->id)->orderBy('start_date', 'asc')->first()->start_date->format('d/m/Y') : '-';
 		$endDate = $journal->issues->first() ? Issue::where('journal_id', $journal->id)->orderBy('end_date', 'desc')->first()->end_date->format('d/m/Y') : '-';
-
-		// const rows: GridRowsProp = [
-		// 	{ id: 1, col1: 'Hello', col2: 'World' },
-		// 	{ id: 2, col1: 'DataGridPro', col2: 'is Awesome' },
-		// 	{ id: 3, col1: 'MUI', col2: 'is Amazing' },
-		//   ];
 
 		$data = [
 			'journal' => $journal,

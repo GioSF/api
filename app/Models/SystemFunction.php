@@ -9,9 +9,9 @@ class SystemFunction extends Model
 {
 	use HasFactory;
 
-	protected $fillable = ['name', 'description', 'parent_system_function'];
+	protected $fillable = ['name', 'slug', 'description', 'parent_system_function'];
 
-	static public function build(?string $name = null, ?string $description = null, ?string $parentSystemFunction = null)
+	static public function build(?string $name = null, ?string $slug = null, ?string $description = null, ?string $parentSystemFunction = null)
 	{
 		$systemFunction = self::where('name', $name)
 			->where('description', $description)
@@ -22,6 +22,7 @@ class SystemFunction extends Model
 		{
 			$systemFunction = new self;
 			$systemFunction->name = $name;
+			$systemFunction->slug = $slug;
 			$systemFunction->description = $description;
 			$systemFunction->parent_system_function = $parentSystemFunction;
 		}

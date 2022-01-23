@@ -16,6 +16,7 @@ class CreateOrganizationsTable extends Migration
 		Schema::create('organizations', function (Blueprint $table) {
 			$table->id();
 			$table->text('slug');
+			$table->text('name');
 			$table->text('description');
 			$table->text('google_maps_link');
 			$table->timestamps();
