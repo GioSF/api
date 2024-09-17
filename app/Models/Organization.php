@@ -35,6 +35,11 @@ class Organization extends Model
 		return $this->hasMany(\App\Models\Card::class);
 	}
 
+	public function forms(): \Illuminate\Database\Eloquent\Relations\HasMany
+	{
+		return $this->hasMany(\App\Models\Form::class);
+	}
+
 	public function news(): \Illuminate\Database\Eloquent\Relations\HasMany
 	{
 		return $this->hasMany(\App\Models\News::class);

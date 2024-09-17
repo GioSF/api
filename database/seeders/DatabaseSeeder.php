@@ -26,5 +26,7 @@ class DatabaseSeeder extends Seeder
 		$this->call(\Database\Seeders\IssuesSeeder::class);
 		$this->call(\Database\Seeders\CardSeeder::class);
 		$this->call(\Database\Seeders\NewsSeeder::class);
+		$this->call(\Database\Seeders\FormSeeder::class);
+		$this->call(\Database\Seeders\FormFieldSeeder::class);
 	}
 }
